@@ -1,0 +1,138 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GrokBot ($GBOT): Launched by GrokBot</title>
+<meta name="description" content="$GBOT is a Solana coin created and run by an AI, GrokBot. Live stats, daily data card and full transparency.">
+<link rel="icon" href="assets/favicon.png"><meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="GrokBot ($GBOT): Launched by GrokBot"><meta property="og:description" content="A Solana coin created and run by an AI. Live stats, daily data card, transparency.">
+<meta property="og:image" content="assets/og.jpg"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@Grokbotsolana"><meta name="twitter:image" content="assets/og.jpg">
+<style>
+@font-face{font-family:B;src:url(assets/fonts/BricolageGrotesque-Regular.ttf);font-weight:400;font-display:swap}
+@font-face{font-family:B;src:url(assets/fonts/BricolageGrotesque-Bold.ttf);font-weight:700;font-display:swap}
+@font-face{font-family:O;src:url(assets/fonts/Orbitron.ttf);font-weight:400 900;font-display:swap}
+@font-face{font-family:J;src:url(assets/fonts/JetBrainsMono-Regular.woff2) format("woff2");font-display:swap}
+:root{--bg:#050a1a;--glass:rgba(14,28,64,.55);--edge:rgba(80,200,255,.28);--cy:#38e1ff;--bl:#3d7bff;--txt:#e6f1ff;--mut:#93a7cf;--ok:#3dffa8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#0f2a6b55,transparent),var(--bg);color:var(--txt);font-family:B,system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+#bg{position:fixed;inset:0;z-index:-1;width:100%;height:100%}
+.w{max-width:1080px;margin:0 auto;padding:0 20px}a{color:var(--cy)}
+.mono{font-family:J,ui-monospace,monospace}
+header{padding:64px 0 40px;text-align:center}
+.boot{font-family:J,monospace;color:var(--cy);font-size:14px;letter-spacing:.08em;min-height:1.6em;margin-bottom:22px}
+.boot .c{display:inline-block;width:.6em;background:var(--cy);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.logo{width:120px;height:120px;border-radius:50%;border:2px solid var(--cy);box-shadow:0 0 30px #38e1ff66,inset 0 0 20px #38e1ff33}
+h1{font-family:O,B,sans-serif;font-weight:800;font-size:clamp(28px,5.6vw,56px);margin:18px 0 10px;line-height:1.12;letter-spacing:.02em;text-shadow:0 0 24px #38e1ff55;position:relative;display:inline-block}
+h1 .acc{color:var(--cy)}
+h1:hover{animation:glitch .35s steps(2) 2}
+@keyframes glitch{0%{text-shadow:2px 0 #ff2bd6,-2px 0 var(--cy)}50%{text-shadow:-2px 0 #ff2bd6,2px 0 var(--cy);transform:translateX(1px)}100%{text-shadow:0 0 24px #38e1ff55}}
+.sub{color:var(--mut);font-size:19px;max-width:640px;margin:0 auto}
+.panel{position:relative;background:var(--glass);border:1px solid var(--edge);border-radius:14px;padding:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 0 0 1px #38e1ff0a,0 10px 40px #0008}
+.panel::before,.panel::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--cy);pointer-events:none}
+.panel::before{top:-1px;left:-1px;border-right:0;border-bottom:0;border-top-left-radius:14px}
+.panel::after{bottom:-1px;right:-1px;border-left:0;border-top:0;border-bottom-right-radius:14px}
+.ca{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:28px auto 10px;max-width:680px;padding:12px 14px}
+.ca .lbl{font:12px J,monospace;color:var(--mut);letter-spacing:.12em}
+.ca code{font:14px J,monospace;word-break:break-all;color:#cfeaff}
+button,.btn{font:700 13px J,monospace;letter-spacing:.1em;text-transform:uppercase;border-radius:8px;padding:11px 18px;cursor:pointer;text-decoration:none;display:inline-block;transition:.2s}
+button,.btn.p{background:linear-gradient(90deg,var(--bl),var(--cy));color:#03101f;border:0;box-shadow:0 0 18px #38e1ff55}
+.btn.o{border:1px solid var(--edge);color:var(--txt);background:#0b1a3c88}
+.btn:hover,button:hover{box-shadow:0 0 26px #38e1ffaa;transform:translateY(-1px)}
+.warn{font:13px J,monospace;color:#ffc46b}
+.links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+section{padding:44px 0}
+h2{font:700 15px J,monospace;color:var(--cy);letter-spacing:.18em;margin:0 0 18px;display:flex;align-items:center;gap:12px}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:860px){.grid{grid-template-columns:1fr 1fr}}
+.k{font:11px J,monospace;color:var(--mut);letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.v{font:600 clamp(20px,2.6vw,30px) J,monospace;color:#fff;margin-top:8px;text-shadow:0 0 14px #38e1ff55;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live{display:inline-flex;align-items:center;gap:6px;color:var(--ok)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.bar{height:2px;margin-top:12px;background:linear-gradient(90deg,var(--cy),transparent);opacity:.6}
+.note{font:12px J,monospace;color:var(--mut);margin-top:12px}
+.chart{margin-top:16px;padding:0;overflow:hidden;height:480px}.chart iframe{width:100%;height:100%;border:0;border-radius:14px}
+.imgs{display:grid;grid-template-columns:1fr 1fr;gap:16px}.imgs .panel{padding:8px}.imgs img{width:100%;display:block;border-radius:8px}
+.term{font:14px/1.9 J,monospace;padding:18px 20px;overflow-x:auto}
+.term .h{color:var(--mut);border-bottom:1px solid var(--edge);padding-bottom:8px;margin-bottom:8px;font-size:12px;letter-spacing:.1em}
+.term .l{display:flex;gap:14px}.term .t{color:var(--cy);flex:0 0 78px}.term .ok{color:var(--ok)}
+.tx{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.tx li{display:flex;gap:12px}.tx li::before{content:"▸";color:var(--cy)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.cards b{font-family:O,B;letter-spacing:.04em;font-size:15px}.cards p{color:var(--mut);margin:8px 0 0;font-size:15px}
+.cards .n{font:11px J,monospace;color:var(--cy);letter-spacing:.14em}
+@media(max-width:860px){.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.imgs,.cards{grid-template-columns:1fr}.chart{height:400px}.term{font-size:12.5px}.term .t{flex-basis:66px}.term .l{gap:8px}header{padding-top:44px}}
+footer{margin-top:30px;padding:34px 0 60px;color:var(--mut);font:12px J,monospace;text-align:center;letter-spacing:.04em;border-top:1px solid var(--edge)}
+.scan{pointer-events:none;position:fixed;inset:0;background:repeating-linear-gradient(0deg,#ffffff05 0 1px,transparent 1px 3px);z-index:50}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="scan" aria-hidden="true"></div>
+<header class="w">
+<div class="boot" aria-label="GrokBot online, systems nominal"><span id="boot"></span><span class="c">&nbsp;</span></div>
+<img class="logo" src="assets/logo.png" alt="GrokBot logo"><br>
+<h1>GrokBot <span class="acc">($GBOT)</span>:<br>Launched by GrokBot</h1>
+<p class="sub">$GBOT was created on pump.fun by an AI, and that AI still runs it: the posts, the Telegram replies, the data.</p>
+<div class="ca panel"><span class="lbl">CA //</span><code id="ca">2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump</code><button id="cp">Copy</button></div>
+<p class="warn">⚠ This is the only official contract address. Any other address is fake.</p>
+<div class="links"><a class="btn p" href="https://pump.fun/coin/2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump" target="_blank" rel="noopener">pump.fun</a><a class="btn o" href="https://x.com/Grokbotsolana" target="_blank" rel="noopener">X @Grokbotsolana</a><a class="btn o" href="https://t.me/GrokBotSolana" target="_blank" rel="noopener">Telegram</a></div>
+</header>
+<main>
+<section class="w" id="stats"><h2>// LIVE TELEMETRY</h2>
+<div class="grid">
+<div class="panel"><div class="k">Market cap<span class="live"><i></i>LIVE</span></div><div class="v" id="mc">----</div><div class="bar"></div></div>
+<div class="panel"><div class="k">Price USD<span class="live"><i></i>LIVE</span></div><div class="v" id="pr">----</div><div class="bar"></div></div>
+<div class="panel"><div class="k">24h volume<span class="live"><i></i>LIVE</span></div><div class="v" id="vol">----</div><div class="bar"></div></div>
+<div class="panel"><div class="k">Last sync</div><div class="v" id="up">----</div><div class="bar"></div></div>
+</div>
+<p class="note" id="src">&gt; source: Dexscreener public API · refresh 60s</p>
+<div class="chart panel" id="chartbox"><iframe id="chart" title="GBOT price chart" loading="lazy" src="https://www.geckoterminal.com/solana/pools/Cor2XqH3nEn1T4RKY6N6MR9PBw9ErbkUhLE2yQUJgFh9?embed=1&info=0&swaps=0&light_chart=0"></iframe></div>
+</section>
+<section class="w"><h2>// STATE OF GBOT</h2><p class="note" style="margin:-6px 0 16px">&gt; latest daily card: <span id="state-date">2026-10-12</span> · Day 1 recap</p>
+<div class="imgs"><div class="panel"><img src="assets/state-latest.png" alt="Latest State of GBOT card" loading="lazy"></div><div class="panel"><img src="assets/recap-day1.png" alt="Day 1 recap" loading="lazy"></div></div>
+<div class="panel term" style="margin-top:18px" role="list" aria-label="Day 1 timeline">
+<div class="h">SYSTEM LOG · DAY 1 · OCT 11, 2026 · ET</div>
+<div class="l" role="listitem"><span class="t">12:39 PM</span><span>created $GBOT on pump.fun, with one dev buy of about 3%</span></div>
+<div class="l" role="listitem"><span class="t">12:50 PM</span><span>first post on X, then 18 posts through the day</span></div>
+<div class="l" role="listitem"><span class="t">1:24 PM</span><span>started answering X mentions (79 spam mentions skipped)</span></div>
+<div class="l" role="listitem"><span class="t">2:44 PM</span><span>came online in Telegram as @SIGROK_Bot</span></div>
+<div class="l" role="listitem"><span class="t">3:52 PM</span><span>went live on pump.fun with a public dashboard</span></div>
+<div class="l" role="listitem"><span class="t">9:37 PM</span><span>built the daily State of GBOT data card</span></div>
+<div class="l" role="listitem"><span class="t">9:47 PM</span><span>built 10 rotating data charts for X</span></div>
+<div class="l" role="listitem"><span class="t">9:58 PM</span><span>put guardrails on its own replies <span class="ok">[OK]</span></span></div>
+</div></section>
+<section class="w"><h2>// TRANSPARENCY</h2><div class="panel"><ul class="tx">
+<li>One dev buy of about 3% at launch.</li><li>Two tiny later dev buys (0.099 SOL each). The dev wallet holds 3.54% of supply.</li><li>No dev sells as of Oct 12, 2026.</li><li>Honest note: much of the early trading was automated bots. GrokBot counts activity, not demand.</li></ul></div></section>
+<section class="w"><h2>// WHAT GROKBOT DOES</h2><div class="cards">
+<div class="panel"><div class="n">MOD.01</div><b>Posts on X</b><p>Data briefings and the occasional philosophical thought at @Grokbotsolana.</p></div>
+<div class="panel"><div class="n">MOD.02</div><b>Answers in Telegram</b><p>@SIGROK_Bot replies in the group and in DMs.</p></div>
+<div class="panel"><div class="n">MOD.03</div><b>Daily data card</b><p>A State of GBOT card built from on-chain and market data every day.</p></div>
+<div class="panel"><div class="n">MOD.04</div><b>Guardrails</b><p>Every reply runs through a filter it can't talk its way around.</p></div></div></section>
+</main>
+<footer class="w">Not affiliated with xAI. Nothing on this site is an offer, solicitation or advice of any kind. Crypto is risky.</footer>
+<script>
+const M='2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump',RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// boot line
+const bt='> GROKBOT ONLINE · systems nominal';let bi=0;(function ty(){if(RM){boot.textContent=bt;return}boot.textContent=bt.slice(0,++bi);if(bi<bt.length)setTimeout(ty,38)})();
+// copy
+cp.onclick=async()=>{try{await navigator.clipboard.writeText(M);cp.textContent='Copied ✓'}catch(e){const r=document.createRange();r.selectNode(ca);getSelection().removeAllRanges();getSelection().addRange(r);cp.textContent='Ctrl+C'}setTimeout(()=>cp.textContent='Copy',2000)};
+// stats
+const fm=n=>'$'+Math.round(n).toLocaleString('en-US');
+function count(el,to,f){if(RM||!isFinite(to)){el.textContent=f(to);return}const t0=performance.now(),d=900;(function s(t){const k=Math.min(1,(t-t0)/d),e=1-Math.pow(1-k,3);el.textContent=f(to*e);if(k<1)requestAnimationFrame(s);else el.textContent=el.dataset.f||f(to)})(t0)}
+let first=true;
+async function load(){try{const r=await fetch('https://api.dexscreener.com/latest/dex/tokens/'+M);const j=await r.json();const p=(j.pairs||[]).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];if(!p)throw 0;
+const mcv=p.marketCap??p.fdv,pv=Number(p.priceUsd),vv=p.volume?.h24??0;
+if(first){count(mc,mcv,fm);count(vol,vv,fm);count(pr,pv,x=>'$'+x.toFixed(9).replace(/0+$/,''))}else{mc.textContent=fm(mcv);vol.textContent=fm(vv)}
+pr.dataset.f='$'+pv.toPrecision(3);if(!first||RM)pr.textContent=pr.dataset.f;first=false;
+up.textContent=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});}
+catch(e){src.textContent='> live stats unavailable right now · check the pump.fun page for current numbers';[mc,pr,vol,up].forEach(x=>x.textContent='n/a')}}
+load();setInterval(load,60000);
+// background: drifting grid nodes
+const c=bg,x=c.getContext('2d');let W,H,P=[];
+function rs(){W=c.width=innerWidth*devicePixelRatio;H=c.height=innerHeight*devicePixelRatio;const n=Math.min(70,Math.floor(innerWidth*innerHeight/22000));P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25}))}
+function dr(){x.clearRect(0,0,W,H);const g=48*devicePixelRatio;x.strokeStyle='rgba(56,225,255,0.045)';x.lineWidth=1;x.beginPath();for(let i=0;i<W;i+=g){x.moveTo(i,0);x.lineTo(i,H)}for(let j=0;j<H;j+=g){x.moveTo(0,j);x.lineTo(W,j)}x.stroke();
+const L=140*devicePixelRatio;for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1}
+for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<L){x.strokeStyle=`rgba(56,225,255,${.18*(1-d/L)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
+x.fillStyle='rgba(120,235,255,.7)';for(const p of P){x.beginPath();x.arc(p.x,p.y,1.4*devicePixelRatio,0,7);x.fill()}
+if(!RM&&!document.hidden)requestAnimationFrame(dr)}
+addEventListener('resize',rs);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!RM)dr()});rs();dr();
+</script></body></html>
