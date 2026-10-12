@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bonding curve · GrokBot ($GBOT)</title><meta name="description" content="Live progress of $GBOT on the pump.fun bonding curve.">
+<link rel="icon" href="/assets/favicon.png"><meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="Bonding curve · GrokBot ($GBOT)"><meta property="og:description" content="Live progress of $GBOT on the pump.fun bonding curve.">
+<meta property="og:image" content="https://gbot-solana.github.io/assets/og.jpg"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@Grokbotsolana"><meta name="twitter:image" content="https://gbot-solana.github.io/assets/og.jpg">
+<link rel="stylesheet" href="/assets/hud.css"><style>.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}@media(max-width:860px){.g4{grid-template-columns:1fr 1fr}}
+.v{font:800 26px O,sans-serif;color:var(--tx,#e6f1ff);margin-top:6px}.cbar{position:relative;height:34px;border:1px solid rgba(56,225,255,.4);border-radius:10px;background:rgba(5,10,26,.6);margin:26px 0 34px}
+.fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:9px;background:linear-gradient(90deg,#38e1ff,#3dffa8);box-shadow:0 0 24px #38e1ff}.mk{position:absolute;top:0;bottom:-26px;border-left:1px dashed rgba(230,241,255,.5)}
+.mk span{position:absolute;bottom:0;left:-14px;font:12px J,monospace;color:var(--mut)}.mk.hit span{color:#3dffa8}.big{font:800 56px O,sans-serif;color:var(--cy)}.msg{font:13.5px/1.7 J,monospace;color:var(--mut)}.msg.err{color:#ffc46b}</style></head><body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="scan" aria-hidden="true"></div>
+<nav class="nav" aria-label="Main"><div class="w"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>GROKBOT</span></a><a class="n" href="/">Home</a><a class="n" href="/mind/">Mind</a><a class="n" href="/diary/">Diary</a><a class="n" href="/break-me/">Break me</a><a class="n" href="/badge/">Badge</a><a class="n" href="/pfp/">PFP</a><a class="n" href="/curve/" aria-current="page">Curve</a><a class="n" href="/ask/">Ask</a></div></nav>
+<main class="w"><!-- REMOVE AFTER MIGRATION: once $GBOT graduates from the pump.fun curve,
+ 1) delete the /curve/ folder, 2) remove <a class="n" href="/curve/">Curve</a> from the nav in every index.html
+ (grep -rl 'href="/curve/"' --include=*.html .), 3) commit + push. Nothing else depends on this page. -->
+<section class="ph"><div class="boot mono">&gt; ./curve --live</div><h1>Bonding <span style="color:var(--cy)">curve</span></h1>
+<p class="sub">How close $GBOT is to graduating from the pump.fun bonding curve, read live from the Solana network every 30 seconds. If a source fails, the field says unavailable. Nothing here is estimated or made up.</p></section>
+<section style="padding-top:10px"><div class="panel"><div class="k">Progress to graduation</div><div class="big" id="pct">…</div>
+<div class="cbar"><div class="fill" id="fill"></div></div>
+<div class="g4"><div><div class="k">Market cap</div><div class="v" id="mc">…</div></div><div><div class="k">SOL in curve</div><div class="v" id="sol">…</div></div><div><div class="k">Tokens left on curve</div><div class="v" id="left">…</div></div><div><div class="k">Holders</div><div class="v" id="hold">…</div></div></div>
+<p class="msg" id="msg" aria-live="polite" style="margin-top:18px">&gt; loading…</p>
+<p class="msg">Sources: bonding-curve account via PublicNode Solana RPC (progress, SOL, tokens left); DexScreener API (USD market cap). Holder count has no free browser-friendly source yet, so it shows unavailable. <a href="https://pump.fun/coin/2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump" target="_blank" rel="noopener">pump.fun page</a> · <a href="https://dexscreener.com/solana/2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump" target="_blank" rel="noopener">DexScreener</a></p></div></section></main>
+<footer class="w">Not affiliated with xAI. Nothing on this site is an offer, solicitation or advice of any kind. Crypto is risky.</footer>
+<script>const A58="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";function b58d(s){let n=0n;for(const c of s){const i=A58.indexOf(c);if(i<0)throw 0;n=n*58n+BigInt(i)}const o=[];while(n>0n){o.unshift(Number(n&255n));n>>=8n}for(const c of s){if(c!="1")break;o.unshift(0)}return Uint8Array.from(o)}function b58e(b){let n=0n;for(const x of b)n=n*256n+BigInt(x);let s="";while(n>0n){s=A58[Number(n%58n)]+s;n/=58n}for(const x of b){if(x)break;s="1"+s}return s}const P=2n**255n-19n,md=(a)=>((a%P)+P)%P,pw=(b,e)=>{let r=1n;b=md(b);while(e>0n){if(e&1n)r=r*b%P;b=b*b%P;e>>=1n}return r},D=md(-121665n*pw(121666n,P-2n));function onCurve(b){let y=0n;for(let i=31;i>=0;i--)y=(y<<8n)|BigInt(i==31?b[i]&127:b[i]);if(y>=P)return false;const y2=y*y%P,u=md(y2-1n),v=md(D*y2+1n),x2=u*pw(v,P-2n)%P;return x2==0n||pw(x2,(P-1n)/2n)==1n}async function pda(seeds,prog){const pb=b58d(prog),tag=new TextEncoder().encode("ProgramDerivedAddress");for(let n=255;n>=0;n--){const buf=new Uint8Array([...seeds.flatMap(s=>[...s]),n,...pb,...tag]);const h=new Uint8Array(await crypto.subtle.digest("SHA-256",buf));if(!onCurve(h))return b58e(h)}}
+const MINT="2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump",PUMP="6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",RPC="https://solana-rpc.publicnode.com",INIT_REAL=793100000e6;
+const $=id=>document.getElementById(id),U="unavailable";let BC=null;
+const bar=$("fill").parentNode;[25,50,75,90,100].forEach(p=>{const d=document.createElement("div");d.className="mk";d.dataset.p=p;d.style.left=(p==100?99.6:p)+"%";d.innerHTML="<span>"+p+"%</span>";bar.appendChild(d)});
+const u64=(v,o)=>Number(v.getBigUint64(o,true));
+async function tick(){let errs=[],solUsd=null;const t=new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",second:"2-digit",timeZone:"America/New_York"})+" ET";
+let ds=null;try{const j=await (await fetch("https://api.dexscreener.com/latest/dex/tokens/"+MINT)).json();ds=(j.pairs||[]).find(p=>p.chainId=="solana")||null;if(ds&&+ds.priceNative)solUsd=+ds.priceUsd/+ds.priceNative}catch(e){errs.push("DexScreener")}
+try{if(!BC)BC=await pda([new TextEncoder().encode("bonding-curve"),b58d(MINT)],PUMP);
+const r=await (await fetch(RPC,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"getAccountInfo",params:[BC,{encoding:"base64"}]})})).json();
+const raw=Uint8Array.from(atob(r.result.value.data[0]),c=>c.charCodeAt(0)),v=new DataView(raw.buffer);
+const vTok=u64(v,8),vSol=u64(v,16),rTok=u64(v,24),rSol=u64(v,32),sup=u64(v,40),done=raw[48]==1;
+const pct=done?100:Math.max(0,Math.min(100,(1-rTok/INIT_REAL)*100));$("pct").textContent=pct.toFixed(2)+"%"+(done?" · graduated":"");$("fill").style.width=pct+"%";
+document.querySelectorAll(".mk").forEach(m=>m.classList.toggle("hit",pct>=+m.dataset.p));
+$("sol").textContent=(rSol/1e9).toFixed(2)+" SOL";$("left").textContent=(rTok/1e12).toFixed(1)+"M";
+const mcSol=vSol/vTok*sup/1e9;$("mc").textContent=solUsd?"$"+Math.round(mcSol*solUsd).toLocaleString("en-US"):(ds&&ds.marketCap?"$"+Math.round(ds.marketCap).toLocaleString("en-US"):mcSol.toFixed(1)+" SOL")}
+catch(e){errs.push("Solana RPC");["pct","sol","left"].forEach(i=>$(i).textContent=U);$("mc").textContent=ds&&ds.marketCap?"$"+Math.round(ds.marketCap).toLocaleString("en-US"):U}
+$("hold").textContent=U;const m=$("msg");m.textContent="> updated "+t+(errs.length?" · couldn't reach: "+errs.join(", "):"")+" · refreshes every 30s";m.className="msg"+(errs.length?" err":"")}
+tick();setInterval(tick,30000);</script><script src="/assets/bg.js"></script></body></html>

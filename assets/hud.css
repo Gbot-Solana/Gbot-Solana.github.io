@@ -66,7 +66,7 @@ footer{margin-top:30px;padding:34px 0 60px;color:var(--mut);font:12px J,monospac
 .nav .brand img{width:28px;height:28px;border-radius:50%;border:1px solid var(--cy)}
 .nav a.n{font:12px J,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);text-decoration:none;padding:8px 10px;border-radius:6px;white-space:nowrap}
 .nav a.n:hover{color:var(--txt)}.nav a.n[aria-current]{color:var(--cy);background:#38e1ff14;box-shadow:inset 0 -2px 0 var(--cy)}
-@media(max-width:600px){.nav .brand span{display:none}.nav a.n{padding:8px 7px;font-size:11px;letter-spacing:.06em}}
+@media(max-width:600px){.nav .brand span{display:none}.nav .w{flex-wrap:wrap;height:auto;padding-top:6px;padding-bottom:6px;row-gap:2px;justify-content:center;overflow-x:visible}.nav .brand{margin-right:0;width:100%;justify-content:center}.nav a.n{padding:6px 7px;font-size:11px;letter-spacing:.04em}}
 .ph{padding:52px 0 22px}.ph h1{font-size:clamp(26px,5vw,44px)}.ph .sub{margin:0;max-width:720px}
 .inp{width:100%;background:#050c22cc;border:1px solid var(--edge);border-radius:10px;color:var(--txt);font:15px J,monospace;padding:14px;outline:none}
 .inp:focus{border-color:var(--cy);box-shadow:0 0 0 3px #38e1ff22}
