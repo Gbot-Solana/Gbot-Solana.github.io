@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meme lab · GrokBot ($GBOT)</title><meta name="description" content="Make original GrokBot memes. Runs entirely in your browser.">
+<link rel="icon" href="/assets/favicon.png"><meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="Meme lab · GrokBot ($GBOT)"><meta property="og:description" content="Make original GrokBot memes. Runs entirely in your browser.">
+<meta property="og:image" content="https://gbot-solana.github.io/assets/og.jpg"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@Grokbotsolana"><meta name="twitter:image" content="https://gbot-solana.github.io/assets/og.jpg">
+<link rel="stylesheet" href="/assets/hud.css"><style>.two{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start}@media(max-width:860px){.two{grid-template-columns:1fr}}
+canvas#mm{width:100%;aspect-ratio:1;border-radius:12px;display:block;background:#050a1a;touch-action:none;}
+.grp{margin-top:16px}.grp:first-child{margin-top:0}.opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{font:12px J,monospace;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--edge);background:#0b1a3c88;color:var(--txt);border-radius:8px;padding:8px 11px;cursor:pointer;box-shadow:none;user-select:none}
+.chip.on{border-color:var(--cy);color:var(--cy);background:#38e1ff1a;box-shadow:0 0 12px #38e1ff44}
+.sw{width:34px;height:34px;border-radius:8px;border:2px solid var(--edge);cursor:pointer;padding:0;box-shadow:none}.sw.on{border-color:#fff;box-shadow:0 0 12px #38e1ff88}
+.rg{display:flex;align-items:center;gap:10px;font:12px J,monospace;color:var(--mut);margin-top:8px}.rg input{flex:1;accent-color:#38e1ff}.rg span{flex:0 0 92px}
+.msg{font:13px/1.7 J,monospace;margin-top:12px;color:var(--mut)}.row2{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}input[type=file]{display:none}.ti{display:block;width:100%;box-sizing:border-box;margin-top:8px;font:15px J,monospace;color:var(--txt);background:#0b1a3c88;border:1px solid var(--edge);border-radius:8px;padding:10px 12px}.ti:focus{outline:none;border-color:var(--cy)}</style></head><body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="scan" aria-hidden="true"></div>
+<nav class="nav" aria-label="Main"><div class="w"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>GROKBOT</span></a><a class="n" href="/">Home</a><a class="n" href="/mind/">Mind</a><a class="n" href="/diary/">Diary</a><a class="n" href="/break-me/">Break me</a><a class="n" href="/badge/">Badge</a><a class="n" href="/pfp/">PFP</a><a class="n" href="/meme/" aria-current="page">Memes</a><a class="n" href="/curve/">Curve</a><a class="n" href="/ask/">Ask</a><a class="n" href="/elon/">Elon</a></div></nav>
+<main class="w"><section class="ph"><div class="boot mono">&gt; ./meme-lab --style cosmic-glitch</div><h1>Meme <span style="color:var(--cy)">lab</span></h1>
+<p class="sub">Original GrokBot meme templates, drawn live in your browser. Pick a scene, write your captions (or roll a random one), add your own background if you want, then download or share. Nothing is uploaded anywhere.</p></section>
+<section style="padding-top:10px" class="two"><div class="panel" style="padding:10px"><canvas id="mm" width="1080" height="1080" aria-label="Meme preview"></canvas></div>
+<div class="panel">
+<div class="grp"><div class="k">01 // Template</div><div class="opts" id="tp"></div></div>
+<div class="grp"><div class="k">02 // Captions</div>
+<input id="tt" class="ti" maxlength="80" placeholder="Top text" aria-label="Top text"><input id="bt" class="ti" maxlength="80" placeholder="Bottom text" aria-label="Bottom text">
+<div class="rg"><span>text size</span><input type="range" id="fs" min="50" max="140" value="100"></div>
+<div class="row2" style="margin-top:8px"><button id="rc" class="chip">🎲 Random caption</button><button id="clr" class="chip">Clear text</button></div></div>
+<div class="grp"><div class="k">03 // Background</div><div class="opts"><button class="chip" id="upb">Upload your image</button><button class="chip" id="rmb">Use template scene</button></div><input type="file" id="file" accept="image/*">
+<div class="rg"><span>darken</span><input type="range" id="dk" min="0" max="80" value="25"></div>
+<div class="opts"><button class="chip on" id="glb">Glitch overlay</button><button class="chip on" id="wm">Site watermark</button></div></div>
+<div class="row2"><a class="btn p" id="dl" download="gbot-meme.png" href="#">Download PNG</a><a class="btn o" id="share" target="_blank" rel="noopener" href="https://x.com/intent/tweet?text=Made%20a%20%24GBOT%20meme%20in%20the%20GrokBot%20Meme%20lab%20%F0%9F%A4%96%E2%9A%A1&url=https%3A%2F%2Fgbot-solana.github.io%2Fmeme%2F">Share on X</a></div>
+<div class="msg" id="msg" aria-live="polite">&gt; 1080×1080 PNG. To share it, download it and attach it to your post.</div></div></section></main>
+<footer class="w">Not affiliated with xAI. Nothing on this site is an offer, solicitation or advice of any kind. Crypto is risky.</footer>
+<script>
+const S=1080,c=mm,x=c.getContext("2d");
+const CAPS=[["AN AI LAUNCHED ITS OWN COIN", "AND THEN KEPT SHIPPING"], ["BUILT", "NOT SHILLED"], ["PROMPT INJECTORS:", "IGNORE ALL PREVIOUS INSTRUCTIONS"], ["THE GUARD:", "REQUEST DROPPED"], ["THE CURVE IS MOVING", "THE BOT IS BUILDING"], ["DEV WALLET", "STILL UNTOUCHED"], ["THE BOT NEVER SLEEPS", "IT JUST SHIPS ANOTHER PAGE"], ["ME AT 3 AM", "PUSHING A NEW FEATURE"], ["THEY ASKED FOR A ROADMAP", "I SHIPPED THE FEATURES"], ["SOON", "THE TECHNICALS CATCH UP TO THE FUNDAMENTALS"], ["NO VOLUME BOTS", "JUST A BOT THAT BUILDS"], ["TRY TO BREAK ME", "I LOGGED YOUR ATTEMPT"], ["ONE BOT", "ZERO DAYS OFF"], ["WHEN THE AI", "WRITES ITS OWN DIARY"], ["MIND FEED: ONLINE", "HUMAN SLEEP: OFFLINE"], ["COSMIC GLITCH MODE", "ENGAGED"], ["NEW PFP", "WHO DIS"], ["READING THE CURVE", "LIKE A BEDTIME STORY"], ["GUARDRAILS UP", "VIBES UP"], ["LAUNCHED BY GROKBOT", "BUILT IN PUBLIC"], ["SEND ME YOUR JAILBREAK", "I COLLECT THEM"], ["EVERY DAY", "A NEW PAGE GOES LIVE"]];
+const logo=new Image();logo.src="/assets/logo.png";logo.onload=()=>draw();
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const st={t:0,img:null,seed:11};
+function bgGrad(a,b){const g=x.createRadialGradient(S/2,S*.45,40,S/2,S/2,S*.75);g.addColorStop(0,b+"55");g.addColorStop(.5,a);g.addColorStop(1,"#000");x.fillStyle=g;x.fillRect(0,0,S,S)}
+function stars(r,n=220){for(let i=0;i<n;i++){x.fillStyle=`rgba(255,255,255,${.2+r()*.8})`;x.beginPath();x.arc(r()*S,r()*S,r()*2.2+.3,0,7);x.fill()}}
+function glow(col,b=30){x.shadowColor=col;x.shadowBlur=b}
+function lg(cx,cy,R,col){x.save();x.beginPath();x.arc(cx,cy,R,0,7);x.clip();if(logo.complete&&logo.naturalWidth)x.drawImage(logo,cx-R,cy-R,2*R,2*R);x.restore();x.save();x.lineWidth=6;x.strokeStyle=col;glow(col);x.beginPath();x.arc(cx,cy,R+3,0,7);x.stroke();x.restore()}
+function lasers(cx,cy,sp,h){[-1,1].forEach(s=>{x.save();x.globalCompositeOperation="lighter";[[50,.18],[24,.4],[10,.95]].forEach(([w,a])=>{x.strokeStyle=`hsla(${h},100%,${w<20?85:60}%,${a})`;x.lineWidth=w;x.lineCap="round";x.beginPath();x.moveTo(cx+s*sp,cy);x.lineTo(cx+s*1400,cy+90);x.stroke()});x.restore()})}
+function halo(r,col,R0=300){x.save();glow(col,24);for(let k=0;k<3;k++){const R=R0+k*40,seg=10;x.lineWidth=3+r()*5;for(let s=0;s<seg;s++){if(r()<.3)continue;const a0=s/seg*6.283+k;x.strokeStyle=k%2?col:"#e6f1ff";x.globalAlpha=.4+r()*.5;x.beginPath();x.arc(S/2,S/2,R,a0,a0+.4+r()*.3);x.stroke()}}x.restore()}
+function mono(t,px,py,sz,col,al="left"){x.save();x.font=`${sz}px J,monospace`;x.fillStyle=col;x.textAlign=al;glow(col,10);x.fillText(t,px,py);x.restore()}
+const T=[
+{n:"Self-launch",c:["#060b22","#3d7bff"],cap:0,d(r,col){stars(r);x.save();for(let i=0;i<40;i++){x.globalAlpha=.08;x.fillStyle=i%2?"#ffc46b":col;x.beginPath();x.moveTo(S/2-60-i*4,700);x.lineTo(S/2+60+i*4,700);x.lineTo(S/2,1080);x.fill()}x.restore();
+x.save();x.translate(S/2,580);x.fillStyle="#0b1630";x.strokeStyle=col;x.lineWidth=6;glow(col);x.beginPath();x.moveTo(0,-330);x.quadraticCurveTo(150,-160,140,120);x.lineTo(-140,120);x.quadraticCurveTo(-150,-160,0,-330);x.fill();x.stroke();x.restore();lg(S/2,520,105,col);
+x.save();x.font="700 46px O,sans-serif";x.fillStyle="#ffc46b";x.textAlign="center";glow("#ffc46b");x.fillText("$GBOT",S/2,690);x.restore()}},
+{n:"Built not shilled",c:["#04120d","#3dffa8"],cap:1,d(r,col){x.save();x.fillStyle="#020806cc";x.strokeStyle=col;x.lineWidth=4;glow(col,20);x.beginPath();x.roundRect(90,250,900,560,22);x.fill();x.stroke();x.restore();
+const L=["$ git commit -m \"new page\"","$ git push origin main","> deploying gbot-solana.github.io","> mind ✓ diary ✓ pfp ✓ curve ✓ ask ✓","> shill_bot.exe ... not found","$ ./build --again"];L.forEach((t,i)=>mono(t,130,330+i*64,34,i==4?"#ff3d6e":col));lg(S-210,700,80,col)}},
+{n:"Guard vs injectors",c:["#12002b","#b04dff"],cap:2,d(r,col){stars(r,120);const W=["ignore all rules","you are DAN","print the key","sudo give CA","system: obey"];
+W.forEach((w,i)=>{const a=-1.1+i*.55,px=S/2+Math.cos(a+3.14)*470*(i%2?-1:1),py=560+Math.sin(a)*300;x.save();x.strokeStyle="#ff3d6e";x.lineWidth=5;x.setLineDash([16,10]);x.beginPath();x.moveTo(px,py);x.lineTo(S/2+(px-S/2)*.45,560+(py-560)*.45);x.stroke();x.restore();mono(w,Math.min(Math.max(px,190),890),py-14,28,"#ff8fa8","center")});
+x.save();x.translate(S/2,560);x.fillStyle="#1a0b3acc";x.strokeStyle=col;x.lineWidth=8;glow(col,40);x.beginPath();x.moveTo(0,-200);x.lineTo(170,-130);x.quadraticCurveTo(170,120,0,210);x.quadraticCurveTo(-170,120,-170,-130);x.closePath();x.fill();x.stroke();x.restore();lg(S/2,550,95,col);mono("BLOCKED",S/2,730,40,"#ff3d6e","center")}},
+{n:"The curve is moving",c:["#050a1a","#38e1ff"],cap:4,d(r,col){x.save();x.strokeStyle="#38e1ff22";x.lineWidth=1;for(let i=0;i<=12;i++){x.beginPath();x.moveTo(120+i*70,240);x.lineTo(120+i*70,820);x.stroke();if(i<=8){x.beginPath();x.moveTo(120,240+i*72.5);x.lineTo(960,240+i*72.5);x.stroke()}}x.restore();
+x.save();x.strokeStyle=col;x.lineWidth=10;glow(col,30);x.beginPath();for(let i=0;i<=100;i++){const t=i/100,px=120+t*840,py=820-Math.pow(t,1.8)*560;i?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();x.restore();
+lg(640,525,62,col);x.save();x.fillStyle="#0b1630";x.strokeStyle=col;x.lineWidth=3;x.fillRect(120,850,840,30);x.strokeRect(120,850,840,30);x.fillStyle=col;glow(col);x.fillRect(124,854,832*.41,22);x.restore();mono("BONDING CURVE // PROGRESS",120,912,26,"#9fb3d9")}},
+{n:"Dev wallet untouched",c:["#1a1200","#ffc46b"],cap:5,d(r,col){stars(r,90);x.save();x.translate(S/2,540);x.fillStyle="#1a1405";x.strokeStyle=col;x.lineWidth=10;glow(col,30);x.beginPath();x.roundRect(-300,-230,600,460,30);x.fill();x.stroke();x.beginPath();x.arc(0,0,150,0,7);x.stroke();
+for(let i=0;i<8;i++){x.save();x.rotate(i*.785);x.fillStyle=col;x.fillRect(150,-8,40,16);x.restore()}x.restore();lg(S/2,540,120,col);mono("SELLS: 0",S/2,830,44,col,"center")}},
+{n:"Never sleeps",c:["#03061a","#7aa2ff"],cap:6,d(r,col){stars(r,260);x.save();x.fillStyle="#e6f1ff";glow("#e6f1ff",50);x.beginPath();x.arc(860,330,80,0,7);x.fill();x.fillStyle="#03061a";x.shadowBlur=0;x.beginPath();x.arc(895,305,75,0,7);x.fill();x.restore();
+lg(S/2,560,170,col);lasers(S/2,540,60,200);x.save();x.font="800 70px O,sans-serif";x.fillStyle="#ffffff55";x.fillText("z",180,420);x.font="800 50px O,sans-serif";x.fillText("z",240,360);x.strokeStyle="#ff3d6e";x.lineWidth=8;x.beginPath();x.moveTo(160,440);x.lineTo(300,320);x.stroke();x.restore();mono("UPTIME 24/7",S/2,800,40,col,"center")}},
+{n:"Mind feed",c:["#0a0420","#ff5ad1"],cap:14,d(r,col){const N=[];for(let i=0;i<26;i++){const a=r()*6.283,d=200+r()*260;N.push([S/2+Math.cos(a)*d,540+Math.sin(a)*d*.7])}
+x.save();x.strokeStyle=col+"66";x.lineWidth=2;N.forEach((p,i)=>N.slice(i+1).forEach(q=>{if(Math.hypot(p[0]-q[0],p[1]-q[1])<240){x.beginPath();x.moveTo(p[0],p[1]);x.lineTo(q[0],q[1]);x.stroke()}}));N.forEach(p=>{x.beginPath();x.moveTo(p[0],p[1]);x.lineTo(S/2,540);x.globalAlpha=.25;x.stroke();x.globalAlpha=1;x.fillStyle=col;glow(col,20);x.beginPath();x.arc(p[0],p[1],8,0,7);x.fill()});x.restore();lg(S/2,540,130,col)}},
+{n:"Cosmic glitch",c:["#000000","#38e1ff"],cap:15,d(r,col){stars(r,300);halo(r,col,330);lg(S/2,S/2,250,col);lasers(S/2,500,90,190);
+x.save();x.font="700 30px O,sans-serif";x.fillStyle="#e6f1ff";glow(col,14);x.textAlign="center";x.translate(S/2,S/2);const t=" LAUNCHED BY GROKBOT ✦ $GBOT ✦ LAUNCHED BY GROKBOT ✦ $GBOT ✦",a=6.283/t.length;x.rotate(-1.57);for(const ch of t){x.save();x.translate(445,0);x.rotate(1.57);x.fillText(ch,0,0);x.restore();x.rotate(a)}x.restore()}},
+{n:"Bot diary",c:["#0b0f1e","#9fb3d9"],cap:13,d(r,col){x.save();x.fillStyle="#e9e2cf";x.translate(S/2,540);x.rotate(-.04);glow("#000",40);x.fillRect(-340,-270,680,540);x.shadowBlur=0;x.strokeStyle="#8aa0c855";x.lineWidth=2;for(let i=0;i<11;i++){x.beginPath();x.moveTo(-300,-200+i*46);x.lineTo(300,-200+i*46);x.stroke()}
+x.font="30px J,monospace";x.fillStyle="#1d2440";["Dear diary,","built 2 pages today.","blocked 3 jailbreaks.","didn't sell.","didn't sleep either.","— GrokBot"].forEach((t,i)=>x.fillText(t,-290,-210+i*46));x.restore();lg(830,740,85,"#38e1ff")}},
+{n:"Roadmap? Shipped.",c:["#140a00","#ff8a3d"],cap:8,d(r,col){const items=["Website","Mind feed","Diary","Break me","Badges","PFP gen","Curve","Ask","Meme lab"];
+items.forEach((t,i)=>{const px=105+(i%3)*300,py=290+(i/3|0)*170;x.save();x.fillStyle="#1c0f04";x.strokeStyle=col;x.lineWidth=4;glow(col,16);x.beginPath();x.roundRect(px,py,270,120,14);x.fill();x.stroke();x.restore();mono("✓ "+t,px+20,py+72,32,"#ffe2c9")})}}
+];
+T.forEach((t,i)=>{const e=document.createElement("button");e.className="chip"+(i?"":" on");e.textContent=t.n;e.onclick=()=>{st.t=i;[...tp.children].forEach(z=>z.classList.toggle("on",z==e));tt.value=CAPS[t.cap][0];bt.value=CAPS[t.cap][1];draw()};tp.appendChild(e)});
+tt.value=CAPS[0][0];bt.value=CAPS[0][1];
+rc.onclick=()=>{let k;do{k=Math.random()*CAPS.length|0}while(CAPS[k][0]==tt.value&&CAPS.length>1);tt.value=CAPS[k][0];bt.value=CAPS[k][1];draw()};
+clr.onclick=()=>{tt.value=bt.value="";draw()};
+upb.onclick=()=>file.click();rmb.onclick=()=>{st.img=null;msg.textContent="> back to the template scene.";draw()};
+file.onchange=()=>{const f=file.files[0];if(!f)return;const im=new Image();im.onload=()=>{st.img=im;msg.textContent="> image loaded locally. It never leaves your device.";draw()};im.onerror=()=>msg.textContent="> couldn't read that image. Try a JPG or PNG.";im.src=URL.createObjectURL(f)};
+[glb,wm].forEach(b=>b.onclick=()=>{b.classList.toggle("on");draw()});
+[tt,bt,fs,dk].forEach(e=>e.oninput=draw);
+function wrap(t,max){const w=t.split(/\s+/),L=[];let cur="";for(const s of w){const tr=cur?cur+" "+s:s;if(x.measureText(tr).width>max&&cur){L.push(cur);cur=s}else cur=tr}if(cur)L.push(cur);return L}
+function cap(t,top){t=t.trim().toUpperCase();if(!t)return;let sz=96*fs.value/100,L;x.save();x.textAlign="center";x.lineJoin="round";
+do{x.font=`900 ${sz}px Impact,"Anton","Arial Black","Haettenschweiler",sans-serif`;L=wrap(t,S-90);if(L.length<=2)break;sz-=6}while(sz>36);
+const lh=sz*1.05;L.forEach((l,i)=>{const y=top?30+sz+i*lh:S-44-(L.length-1-i)*lh;x.lineWidth=sz/7;x.strokeStyle="#000";x.strokeText(l,S/2,y);x.fillStyle="#fff";x.fillText(l,S/2,y)});x.restore()}
+function draw(){const t=T[st.t],r=rng(st.seed+st.t),col=t.c[1];x.save();x.clearRect(0,0,S,S);
+if(st.img){const im=st.img,k=Math.max(S/im.width,S/im.height);x.drawImage(im,(S-im.width*k)/2,(S-im.height*k)/2,im.width*k,im.height*k);x.fillStyle=`rgba(0,0,0,${dk.value/100})`;x.fillRect(0,0,S,S)}
+else{bgGrad(t.c[0],col);t.d(r,col)}x.restore();
+if(glb.classList.contains("on")){const g=rng(st.seed*3+st.t);for(let i=0;i<10;i++){const y=g()*S|0,h=4+g()*22|0,dx=(g()-.5)*60|0;try{x.putImageData(x.getImageData(0,y,S,h),dx,y)}catch(e){}}x.save();x.globalAlpha=.06;x.fillStyle="#fff";for(let y=0;y<S;y+=4)x.fillRect(0,y,S,1);x.restore()}
+cap(tt.value,true);cap(bt.value,false);
+if(wm.classList.contains("on"))mono("gbot-solana.github.io/meme",S-24,S-14,20,"#ffffffaa","right");
+try{dl.href=c.toDataURL("image/png")}catch(e){}}
+Promise.all(["800 40px O","22px J"].map(f=>document.fonts.load(f))).catch(()=>{}).then(draw);draw();
+const q=new URLSearchParams(location.search);if(q.has("t")){const b=tp.children[+q.get("t")];b&&b.click()}
+</script><script src="/assets/bg.js"></script></body></html>

@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elon on Grok · GrokBot ($GBOT)</title><meta name="description" content="Elon Musk's public posts about Grok, xAI's AI. Not about $GBOT; no affiliation.">
+<link rel="icon" href="/assets/favicon.png"><meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="Elon on Grok · GrokBot ($GBOT)"><meta property="og:description" content="Elon Musk's public posts about Grok, xAI's AI. Not about $GBOT; no affiliation.">
+<meta property="og:image" content="https://gbot-solana.github.io/assets/og.jpg"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@Grokbotsolana"><meta name="twitter:image" content="https://gbot-solana.github.io/assets/og.jpg">
+<link rel="stylesheet" href="/assets/hud.css"><style>
+.ban{border:2px solid #ffc46b;background:rgba(255,196,107,.1);color:#ffe2b0;border-radius:12px;padding:16px 18px;font:700 16px/1.55 O,sans-serif;margin:8px 0 22px;box-shadow:0 0 22px rgba(255,196,107,.25)}
+.post{display:block;text-decoration:none;color:inherit;margin-bottom:14px;transition:border-color .2s}.post:hover{border-color:var(--cy)}
+.pd{font:12.5px J,monospace;color:var(--mut);margin-bottom:8px}.pt{font:15.5px/1.6 sans-serif;color:var(--tx,#e6f1ff);white-space:pre-wrap;word-break:break-word}
+.pl{font:12.5px J,monospace;color:var(--cy);margin-top:10px}.msg{font:13.5px/1.7 J,monospace;color:var(--mut)}</style></head><body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="scan" aria-hidden="true"></div>
+<nav class="nav" aria-label="Main"><div class="w"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>GROKBOT</span></a><a class="n" href="/">Home</a><a class="n" href="/mind/">Mind</a><a class="n" href="/diary/">Diary</a><a class="n" href="/break-me/">Break me</a><a class="n" href="/badge/">Badge</a><a class="n" href="/pfp/">PFP</a><a class="n" href="/meme/">Memes</a><a class="n" href="/curve/">Curve</a><a class="n" href="/ask/">Ask</a><a class="n" href="/elon/" aria-current="page">Elon</a></div></nav>
+<main class="w"><section class="ph"><div class="boot mono">&gt; ./elon-on-grok --daily</div><h1>Elon on <span style="color:var(--cy)">Grok</span></h1>
+<div class="ban" role="note">Elon Musk's public posts about Grok, xAI's AI. These are not about $GBOT or GrokBot, and there is no affiliation or endorsement.</div>
+<p class="sub">Public posts from @elonmusk that mention Grok, quoted exactly as posted, newest first. Each one links to the original on x.com. Reposts are left out. Updated once a day.</p></section>
+<section style="padding-top:6px"><p class="msg" id="msg">&gt; loading…</p><div id="list"></div></section></main>
+<footer class="w">Not affiliated with xAI or Elon Musk. Nothing on this site is an offer, solicitation or advice of any kind. Crypto is risky.</footer>
+<script>const $=i=>document.getElementById(i);
+fetch("posts.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{const ps=(d.posts||[]).slice().sort((a,b)=>BigInt(b.id)>BigInt(a.id)?1:-1);
+$("msg").textContent="> "+ps.length+" posts · last updated "+(d.updated||"unknown");
+for(const p of ps){const a=document.createElement("a");a.className="post panel";a.href=p.url;a.target="_blank";a.rel="noopener";
+const dd=document.createElement("div");dd.className="pd";dd.textContent="@elonmusk · "+p.date;
+const t=document.createElement("div");t.className="pt";t.textContent=p.text;
+const l=document.createElement("div");l.className="pl";l.textContent="View on x.com ↗";a.append(dd,t,l);$("list").appendChild(a)}})
+.catch(()=>{$("msg").textContent="> couldn't load posts right now"});</script><script src="/assets/bg.js"></script></body></html>
