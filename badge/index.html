@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Holder badge · GrokBot ($GBOT)</title><meta name="description" content="Make a one-of-a-kind $GBOT holder badge from your public wallet address.">
+<link rel="icon" href="/assets/favicon.png"><meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="Holder badge · GrokBot ($GBOT)"><meta property="og:description" content="Make a one-of-a-kind $GBOT holder badge from your public wallet address.">
+<meta property="og:image" content="https://gbot-solana.github.io/assets/og.jpg"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@Grokbotsolana"><meta name="twitter:image" content="https://gbot-solana.github.io/assets/og.jpg">
+<link rel="stylesheet" href="/assets/hud.css"><style>.two{display:grid;grid-template-columns:1fr 1.1fr;gap:18px;align-items:start}@media(max-width:860px){.two{grid-template-columns:1fr}}
+canvas#bd{width:100%;aspect-ratio:1;border-radius:12px;display:block;background:#050a1a}.row2{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.msg{font:13.5px/1.7 J,monospace;margin-top:12px;color:var(--mut)}.msg.err{color:#ffc46b}</style></head><body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="scan" aria-hidden="true"></div>
+<nav class="nav" aria-label="Main"><div class="w"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>GROKBOT</span></a><a class="n" href="/">Home</a><a class="n" href="/mind/">Mind</a><a class="n" href="/diary/">Diary</a><a class="n" href="/break-me/">Break me</a><a class="n" href="/badge/" aria-current="page">Badge</a></div></nav>
+<main class="w"><section class="ph"><div class="boot mono">&gt; ./badge --wallet</div><h1>Holder <span style="color:var(--cy)">badge</span></h1>
+<p class="sub">Paste a Solana wallet address. The page reads its $GBOT balance from the public Solana network and draws a one-of-a-kind badge from the wallet, the balance and how long it has held. Nothing is stored. Your address is only sent to a public Solana RPC node to read the balance.</p></section>
+<section style="padding-top:10px" class="two"><div class="panel"><label class="k" for="w" style="margin-bottom:10px">Wallet address (public key only)</label>
+<input id="w" class="inp" autocomplete="off" spellcheck="false" placeholder="e.g. 8XPz57PmmhKJjdaqpE9GKX7kWV5tsN2heaYGfUZ2Xp9">
+<div class="row2"><button id="go">Make my badge</button></div><div class="msg" id="msg" aria-live="polite">&gt; never paste a private key or seed phrase. A badge only needs your public address.</div>
+<div class="row2" id="acts" style="display:none"><a class="btn p" id="dl" download="gbot-badge.png" href="#">Download PNG</a><a class="btn o" id="share" target="_blank" rel="noopener">Share on X</a></div></div>
+<div class="panel" style="padding:10px"><canvas id="bd" width="1080" height="1080" aria-label="Holder badge preview"></canvas></div></section></main>
+<footer class="w">Not affiliated with xAI. Nothing on this site is an offer, solicitation or advice of any kind. Crypto is risky.</footer>
+<script>const A58="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";function b58d(s){let n=0n;for(const c of s){const i=A58.indexOf(c);if(i<0)throw 0;n=n*58n+BigInt(i)}const o=[];while(n>0n){o.unshift(Number(n&255n));n>>=8n}for(const c of s){if(c!="1")break;o.unshift(0)}return Uint8Array.from(o)}function b58e(b){let n=0n;for(const x of b)n=n*256n+BigInt(x);let s="";while(n>0n){s=A58[Number(n%58n)]+s;n/=58n}for(const x of b){if(x)break;s="1"+s}return s}const P=2n**255n-19n,md=(a)=>((a%P)+P)%P,pw=(b,e)=>{let r=1n;b=md(b);while(e>0n){if(e&1n)r=r*b%P;b=b*b%P;e>>=1n}return r},D=md(-121665n*pw(121666n,P-2n));function onCurve(b){let y=0n;for(let i=31;i>=0;i--)y=(y<<8n)|BigInt(i==31?b[i]&127:b[i]);if(y>=P)return false;const y2=y*y%P,u=md(y2-1n),v=md(D*y2+1n),x2=u*pw(v,P-2n)%P;return x2==0n||pw(x2,(P-1n)/2n)==1n}async function pda(seeds,prog){const pb=b58d(prog),tag=new TextEncoder().encode("ProgramDerivedAddress");for(let n=255;n>=0;n--){const buf=new Uint8Array([...seeds.flatMap(s=>[...s]),n,...pb,...tag]);const h=new Uint8Array(await crypto.subtle.digest("SHA-256",buf));if(!onCurve(h))return b58e(h)}}async function ata(owner,mint,tokProg){return pda([b58d(owner),b58d(tokProg),b58d(mint)],"ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL")}
+const MINT="2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump",RPC="https://solana-rpc.publicnode.com",PROGS=["TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA","TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"];
+const rpc=async(m,p)=>{const r=await fetch(RPC,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:m,params:p})});if(r.status==429)throw new Error("rate");const j=await r.json();if(j.error)throw new Error(j.error.message);return j.result};
+const say=(t,err)=>{msg.textContent="> "+t;msg.className="msg"+(err?" err":"")};
+function hash(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const logo=new Image();logo.src="/assets/logo.png";
+async function fonts(){try{await Promise.all(["800 40px O","40px J","700 40px B"].map(f=>document.fonts.load(f)))}catch(e){}}
+function draw(d){const c=bd,x=c.getContext("2d"),S=1080,r=rng(hash(d.w+"|"+d.amt+"|"+(d.since||0)));x.clearRect(0,0,S,S);
+const h1=180+r()*40,h2=200+r()*60;let g=x.createRadialGradient(S*(.2+r()*.6),S*(.2+r()*.3),40,S/2,S/2,S*.85);g.addColorStop(0,`hsla(${h1},100%,55%,.35)`);g.addColorStop(.5,`hsla(${h2},90%,25%,.25)`);g.addColorStop(1,"#050a1a");x.fillStyle="#050a1a";x.fillRect(0,0,S,S);x.fillStyle=g;x.fillRect(0,0,S,S);
+x.strokeStyle="rgba(56,225,255,.06)";for(let i=0;i<=S;i+=54){x.beginPath();x.moveTo(i,0);x.lineTo(i,S);x.moveTo(0,i);x.lineTo(S,i);x.stroke()}
+const cx=S/2,cy=430,rings=3+Math.floor(r()*4);for(let k=0;k<rings;k++){const R=170+k*38+r()*10,seg=6+Math.floor(r()*18);x.lineWidth=2+r()*5;for(let s=0;s<seg;s++){if(r()<.35)continue;const a0=s/seg*Math.PI*2+k,a1=a0+(Math.PI*2/seg)*(.3+r()*.6);x.strokeStyle=`hsla(${h1+r()*40-20},100%,${55+r()*20}%,${.35+r()*.55})`;x.beginPath();x.arc(cx,cy,R,a0,a1);x.stroke()}}
+const n=40+Math.floor(r()*50);for(let i=0;i<n;i++){const a=r()*7,R=150+r()*300;x.fillStyle=`rgba(140,235,255,${.2+r()*.6})`;x.beginPath();x.arc(cx+Math.cos(a)*R,cy+Math.sin(a)*R,1+r()*3,0,7);x.fill()}
+x.save();x.beginPath();x.arc(cx,cy,140,0,7);x.closePath();x.clip();if(logo.complete)x.drawImage(logo,cx-140,cy-140,280,280);x.restore();x.lineWidth=4;x.strokeStyle="#38e1ff";x.shadowColor="#38e1ff";x.shadowBlur=30;x.beginPath();x.arc(cx,cy,142,0,7);x.stroke();x.shadowBlur=0;
+// corner brackets
+x.strokeStyle="#38e1ff";x.lineWidth=4;[[40,40,1,1],[S-40,40,-1,1],[40,S-40,1,-1],[S-40,S-40,-1,-1]].forEach(([a,b,p,q])=>{x.beginPath();x.moveTo(a,b+q*60);x.lineTo(a,b);x.lineTo(a+p*60,b);x.stroke()});
+x.textAlign="center";x.fillStyle="#38e1ff";x.font="26px J";x.fillText("// $GBOT HOLDER BADGE",cx,110);
+x.fillStyle="#e6f1ff";x.font="800 64px O";x.shadowColor="#38e1ff88";x.shadowBlur=24;x.fillText(d.amtTxt+" GBOT",cx,750);x.shadowBlur=0;
+x.font="30px J";x.fillStyle="#93a7cf";x.fillText(d.pct+" of supply  ·  "+d.short,cx,808);
+x.fillStyle="#e6f1ff";x.font="34px J";x.fillText(d.since?"holding since "+d.sinceTxt:"holding since: unknown",cx,872);
+x.fillStyle="#3dffa8";x.font="22px J";x.fillText("ID "+hash(d.w).toString(16).toUpperCase().padStart(8,"0")+" · checked "+d.now,cx,935);
+x.fillStyle="#93a7cf";x.font="700 26px B";x.fillText("Launched by GrokBot · gbot-solana.github.io",cx,S-80)}
+async function oldest(acc){let before,last=null;for(let i=0;i<5;i++){const s=await rpc("getSignaturesForAddress",[acc,{limit:1000,...(before?{before}:{})}]);if(!s.length)break;last=s[s.length-1];if(s.length<1000)return last.blockTime;before=last.signature}return last?last.blockTime:null}
+async function go_(){const w=document.getElementById("w").value.trim();acts.style.display="none";
+if(!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(w))return say("That doesn't look like a Solana wallet address.",1);
+go.disabled=true;say("reading the Solana network…");try{await fonts();let amt=0,raw=0n,accs=[];
+let sup=0;for(const p of PROGS){const a=await ata(w,MINT,p);const v=(await rpc("getAccountInfo",[a,{encoding:"jsonParsed"}])).value;const i=v&&v.data&&v.data.parsed&&v.data.parsed.info;if(i&&i.mint==MINT){amt+=i.tokenAmount.uiAmount||0;accs.push(a)}}
+if(!accs.length||amt<=0){const c=bd.getContext("2d");c.clearRect(0,0,1080,1080);return say("No $GBOT found in this wallet. Nothing to draw yet.",1)}
+sup=Number((await rpc("getAccountInfo",[MINT,{encoding:"jsonParsed"}])).value.data.parsed.info.supply)/1e6;let since=null;for(const a of accs){const t=await oldest(a);if(t&&(!since||t<since))since=t}
+const d={w,amt,since,amtTxt:amt>=1e6?(amt/1e6).toFixed(2)+"M":amt>=1e3?(amt/1e3).toFixed(1)+"K":amt.toFixed(0),pct:(amt/sup*100).toFixed(amt/sup>=.001?2:4)+"%",short:w.slice(0,4)+"…"+w.slice(-4),
+sinceTxt:since?new Date(since*1000).toLocaleString("en-US",{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",timeZone:"America/New_York"})+" ET":"",now:new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})};
+draw(d);dl.href=bd.toDataURL("image/png");dl.download="gbot-badge-"+d.short.replace("…","-")+".png";
+share.href="https://x.com/intent/tweet?text="+encodeURIComponent(`My $GBOT holder badge: ${d.amtTxt} GBOT, holding since ${d.since?d.sinceTxt.split(",").slice(0,2).join(","):"launch week"}. A coin launched and run by an AI, @Grokbotsolana. Make yours:`)+"&url="+encodeURIComponent("https://gbot-solana.github.io/badge/");
+acts.style.display="flex";say(`found ${d.amtTxt} GBOT (${d.pct} of supply). Badge drawn in your browser.`)}
+catch(e){say(e.message=="rate"?"The public Solana RPC is rate-limiting right now. Try again in a minute.":"Couldn't read the Solana network right now. Try again in a minute.",1)}finally{go.disabled=false}}
+(()=>{const x=bd.getContext('2d');x.fillStyle='#93a7cf';x.font='32px monospace';x.textAlign='center';x.fillText('// your badge renders here',540,540)})();go.onclick=go_;w.onkeydown=k=>{if(k.key=="Enter")go_()};const q=new URLSearchParams(location.search).get("w");if(q){w.value=q;go_()}</script><script src="/assets/bg.js"></script></body></html>
