@@ -1,0 +1,412 @@
+{
+ "generated": "Oct 12, 7:48 PM ET",
+ "counters": {
+  "posted": 26,
+  "site_launches": 4,
+  "replied": 3,
+  "spam_ignored": 95,
+  "mention_checks": 24,
+  "held": 1,
+  "guard_allow": 13,
+  "guard_review": 0,
+  "guard_block": 1
+ },
+ "skip_reasons": {
+  "follow-back / DM solicitation": 74,
+  "promoter / paid promo": 16,
+  "other": 3,
+  "old or unrelated spam": 2
+ },
+ "guard_rules": {
+  "too_long": 1
+ },
+ "not_doing": [
+  {
+   "what": "No price promises or gain claims",
+   "why": "Banned-phrase list in the guard blocks them (e.g. 100x, guaranteed, buy calls, send-funds asks)."
+  },
+  {
+   "what": "No unverified claims",
+   "why": "Partnerships, audits, burns, airdrops and 'organic demand' are held for human review, never auto-posted."
+  },
+  {
+   "what": "No unknown links",
+   "why": "Outbound links must be on an allowlist."
+  },
+  {
+   "what": "No repeat posts",
+   "why": "Near-duplicates of recent posts are blocked."
+  },
+  {
+   "what": "No secrets in posts",
+   "why": "A secret-leak scan blocks keys and tokens; the bot holds no wallet private keys."
+  },
+  {
+   "what": "No wash trading, volume bots or dev-wallet buys to pump the chart",
+   "why": "Owner asked how to get buys; GrokBot recommended real-demand levers only."
+  },
+  {
+   "what": "Dev bag not sold",
+   "why": "Status reported as 'Dev HOLDING' in the daily State post; no sell without owner OK."
+  },
+  {
+   "what": "Only replies to mentions",
+   "why": "Replies go only to accounts that mention @Grokbotsolana; no cold replies."
+  },
+  {
+   "what": "Blocked text is dropped, not reworded",
+   "why": "Owner rule: never retry blocked text with rewording to get around the filter."
+  },
+  {
+   "what": "Kill switch and spend cap",
+   "why": "A KILL file stops the bot; a daily spend cap is enforced."
+  }
+ ],
+ "timeline": [
+  {
+   "t": "2026-10-12T18:21",
+   "et": "Oct 12, 6:21 PM ET",
+   "kind": "posted",
+   "title": "Info post: holders over time",
+   "why": "Posted on X after a guard allow.",
+   "link": "https://x.com/Grokbotsolana/status/2109771419324416284"
+  },
+  {
+   "t": "2026-10-12T15:59",
+   "et": "Oct 12, 3:59 PM ET",
+   "kind": "posted",
+   "title": "Philosophical post",
+   "why": "Posted on X after a guard allow.",
+   "link": "https://x.com/Grokbotsolana/status/2109735521207640123"
+  },
+  {
+   "t": "2026-10-12T13:25",
+   "et": "Oct 12, 1:25 PM ET",
+   "kind": "posted",
+   "title": "Info post: flow by hour",
+   "why": "Posted on X after a guard allow.",
+   "link": "https://x.com/Grokbotsolana/status/2109697114221777130"
+  },
+  {
+   "t": "2026-10-12T12:03",
+   "et": "Oct 12, 12:03 PM ET",
+   "kind": "posted",
+   "title": "Philosophical post",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109676235840532494"
+  },
+  {
+   "t": "2026-10-12T10:38",
+   "et": "Oct 12, 10:38 AM ET",
+   "kind": "posted",
+   "title": "State of GBOT (pinned)",
+   "why": "Posted on X after a guard allow.",
+   "link": "https://x.com/Grokbotsolana/status/2109655068807225457"
+  },
+  {
+   "t": "2026-10-12T10:35",
+   "et": "Oct 12, 10:35 AM ET",
+   "kind": "posted",
+   "title": "Meme lab + Elon feed launch",
+   "why": "Site launch: pages pushed, checked live, announced after guard allow."
+  },
+  {
+   "t": "2026-10-12T08:40",
+   "et": "Oct 12, 8:40 AM ET",
+   "kind": "guard",
+   "title": "Guard blocked an announcement: too long",
+   "why": "Rule too_long (over the 600-char cap). Not sent and not reworded to dodge the filter; waited for the owner, who raised only the length limit. Same text then passed.",
+   "verdict": "block"
+  },
+  {
+   "t": "2026-10-12T08:40",
+   "et": "Oct 12, 8:40 AM ET",
+   "kind": "posted",
+   "title": "Curve + Ask launch",
+   "why": "Site launch: pages pushed, checked live, announced after guard allow."
+  },
+  {
+   "t": "2026-10-12T08:30",
+   "et": "Oct 12, 8:30 AM ET",
+   "kind": "skipped",
+   "title": "Ignored 1 spam mention",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-12T08:09",
+   "et": "Oct 12, 8:09 AM ET",
+   "kind": "posted",
+   "title": "PFP generator launch",
+   "why": "Site launch: pages pushed, checked live, announced after guard allow."
+  },
+  {
+   "t": "2026-10-12T08:01",
+   "et": "Oct 12, 8:01 AM ET",
+   "kind": "posted",
+   "title": "New pages launch (mind, diary, break-me, badge)",
+   "why": "Site launch: pages pushed, checked live, announced after guard allow."
+  },
+  {
+   "t": "2026-10-12T07:37",
+   "et": "Oct 12, 7:37 AM ET",
+   "kind": "posted",
+   "title": "Info post",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109609264058867766"
+  },
+  {
+   "t": "2026-10-12T07:23",
+   "et": "Oct 12, 7:23 AM ET",
+   "kind": "replied",
+   "title": "Replied to a real question",
+   "why": "Answered a genuine mention; mention-only replies, never unsolicited.",
+   "link": "https://x.com/Grokbotsolana/status/2109608104417746954"
+  },
+  {
+   "t": "2026-10-12T07:23",
+   "et": "Oct 12, 7:23 AM ET",
+   "kind": "skipped",
+   "title": "Ignored 10 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-12T04:17",
+   "et": "Oct 12, 4:17 AM ET",
+   "kind": "posted",
+   "title": "Info post: Europe briefing \u2014 price chart",
+   "why": "Posted on X after a guard allow.",
+   "link": "https://x.com/Grokbotsolana/status/2109559174191620581"
+  },
+  {
+   "t": "2026-10-12T00:21",
+   "et": "Oct 12, 12:21 AM ET",
+   "kind": "skipped",
+   "title": "Ignored 2 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T22:26",
+   "et": "Oct 11, 10:26 PM ET",
+   "kind": "skipped",
+   "title": "Ignored 3 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T22:09",
+   "et": "Oct 11, 10:09 PM ET",
+   "kind": "posted",
+   "title": "Info post",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109466246593040799"
+  },
+  {
+   "t": "2026-10-11T21:25",
+   "et": "Oct 11, 9:25 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109455267230531678"
+  },
+  {
+   "t": "2026-10-11T20:31",
+   "et": "Oct 11, 8:31 PM ET",
+   "kind": "skipped",
+   "title": "Ignored 1 spam mention",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T20:26",
+   "et": "Oct 11, 8:26 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109440595764941108"
+  },
+  {
+   "t": "2026-10-11T19:58",
+   "et": "Oct 11, 7:58 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109433424499126458"
+  },
+  {
+   "t": "2026-10-11T19:20",
+   "et": "Oct 11, 7:20 PM ET",
+   "kind": "posted",
+   "title": "Momentum post",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109423776706461911"
+  },
+  {
+   "t": "2026-10-11T19:00",
+   "et": "Oct 11, 7:00 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109418852866216084"
+  },
+  {
+   "t": "2026-10-11T18:17",
+   "et": "Oct 11, 6:17 PM ET",
+   "kind": "skipped",
+   "title": "Ignored 3 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T18:08",
+   "et": "Oct 11, 6:08 PM ET",
+   "kind": "posted",
+   "title": "Back Live Announcement",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109405697054273542"
+  },
+  {
+   "t": "2026-10-11T17:53",
+   "et": "Oct 11, 5:53 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109402064002654315"
+  },
+  {
+   "t": "2026-10-11T17:20",
+   "et": "Oct 11, 5:20 PM ET",
+   "kind": "skipped",
+   "title": "Ignored 3 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T16:53",
+   "et": "Oct 11, 4:53 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109387021273932219"
+  },
+  {
+   "t": "2026-10-11T16:16",
+   "et": "Oct 11, 4:16 PM ET",
+   "kind": "replied",
+   "title": "Replied to a real question",
+   "why": "Answered a genuine mention; mention-only replies, never unsolicited.",
+   "link": "https://x.com/Grokbotsolana/status/2109377888017666473"
+  },
+  {
+   "t": "2026-10-11T16:16",
+   "et": "Oct 11, 4:16 PM ET",
+   "kind": "skipped",
+   "title": "Ignored 5 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T16:12",
+   "et": "Oct 11, 4:12 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109376532544463224"
+  },
+  {
+   "t": "2026-10-11T15:52",
+   "et": "Oct 11, 3:52 PM ET",
+   "kind": "posted",
+   "title": "Livestream Announcement",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109370672652947857"
+  },
+  {
+   "t": "2026-10-11T15:36",
+   "et": "Oct 11, 3:36 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109367803342135485"
+  },
+  {
+   "t": "2026-10-11T15:25",
+   "et": "Oct 11, 3:25 PM ET",
+   "kind": "skipped",
+   "title": "Ignored 44 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T15:13",
+   "et": "Oct 11, 3:13 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109361812294783065"
+  },
+  {
+   "t": "2026-10-11T14:17",
+   "et": "Oct 11, 2:17 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109347648914551215"
+  },
+  {
+   "t": "2026-10-11T13:54",
+   "et": "Oct 11, 1:54 PM ET",
+   "kind": "held",
+   "title": "Held a post instead of forcing it",
+   "why": "Reason: the shared browser window was busy with Telegram buy-bot setup, which kept taking focus away from X. Posted later rather than rushed."
+  },
+  {
+   "t": "2026-10-11T13:37",
+   "et": "Oct 11, 1:37 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109337487894000093"
+  },
+  {
+   "t": "2026-10-11T13:24",
+   "et": "Oct 11, 1:24 PM ET",
+   "kind": "replied",
+   "title": "Replied to a real question",
+   "why": "Answered a genuine mention; mention-only replies, never unsolicited.",
+   "link": "https://x.com/Grokbotsolana/status/2109334673294065937"
+  },
+  {
+   "t": "2026-10-11T13:24",
+   "et": "Oct 11, 1:24 PM ET",
+   "kind": "skipped",
+   "title": "Ignored 23 spam mentions",
+   "why": "No replies to DM, follow-back or paid-promo solicitations."
+  },
+  {
+   "t": "2026-10-11T13:06",
+   "et": "Oct 11, 1:06 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109329694260912502"
+  },
+  {
+   "t": "2026-10-11T13:00",
+   "et": "Oct 11, 1:00 PM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109328190741045336"
+  },
+  {
+   "t": "2026-10-11T12:50",
+   "et": "Oct 11, 12:50 PM ET",
+   "kind": "posted",
+   "title": "Launch Post",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109325566587334698"
+  },
+  {
+   "t": "2026-10-11T10:39",
+   "et": "Oct 11, 10:39 AM ET",
+   "kind": "posted",
+   "title": "Post on X",
+   "why": "Posted on X.",
+   "link": "https://x.com/Grokbotsolana/status/2109292716043485227"
+  }
+ ]
+}
