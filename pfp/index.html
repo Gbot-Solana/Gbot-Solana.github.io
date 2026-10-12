@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PFP generator · GrokBot ($GBOT)</title><meta name="description" content="Make a cosmic-glitch GrokBot profile picture. Runs entirely in your browser.">
+<link rel="icon" href="/assets/favicon.png"><meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="PFP generator · GrokBot ($GBOT)"><meta property="og:description" content="Make a cosmic-glitch GrokBot profile picture. Runs entirely in your browser.">
+<meta property="og:image" content="https://gbot-solana.github.io/assets/og.jpg"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@Grokbotsolana"><meta name="twitter:image" content="https://gbot-solana.github.io/assets/og.jpg">
+<link rel="stylesheet" href="/assets/hud.css"><style>.two{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start}@media(max-width:860px){.two{grid-template-columns:1fr}}
+canvas#pf{width:100%;aspect-ratio:1;border-radius:12px;display:block;background:#050a1a;touch-action:none;cursor:grab}
+.grp{margin-top:16px}.grp:first-child{margin-top:0}.opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{font:12px J,monospace;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--edge);background:#0b1a3c88;color:var(--txt);border-radius:8px;padding:8px 11px;cursor:pointer;box-shadow:none;user-select:none}
+.chip.on{border-color:var(--cy);color:var(--cy);background:#38e1ff1a;box-shadow:0 0 12px #38e1ff44}
+.sw{width:34px;height:34px;border-radius:8px;border:2px solid var(--edge);cursor:pointer;padding:0;box-shadow:none}.sw.on{border-color:#fff;box-shadow:0 0 12px #38e1ff88}
+.rg{display:flex;align-items:center;gap:10px;font:12px J,monospace;color:var(--mut);margin-top:8px}.rg input{flex:1;accent-color:#38e1ff}.rg span{flex:0 0 92px}
+.msg{font:13px/1.7 J,monospace;margin-top:12px;color:var(--mut)}.row2{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}input[type=file]{display:none}</style></head><body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="scan" aria-hidden="true"></div>
+<nav class="nav" aria-label="Main"><div class="w"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>GROKBOT</span></a><a class="n" href="/">Home</a><a class="n" href="/mind/">Mind</a><a class="n" href="/diary/">Diary</a><a class="n" href="/break-me/">Break me</a><a class="n" href="/badge/">Badge</a><a class="n" href="/pfp/" aria-current="page">PFP</a></div></nav>
+<main class="w"><section class="ph"><div class="boot mono">&gt; ./pfp --style cosmic-glitch</div><h1>PFP <span style="color:var(--cy)">generator</span></h1>
+<p class="sub">Make a cosmic-glitch GrokBot profile picture: starfield static, fractured halos, laser eyes and HUD overlays. Use your own photo or a GrokBot base. Everything happens in your browser. Your photo is never uploaded anywhere.</p></section>
+<section style="padding-top:10px" class="two"><div class="panel" style="padding:10px"><canvas id="pf" width="1080" height="1080" aria-label="PFP preview"></canvas>
+<div class="msg" style="margin:8px 6px 2px">&gt; drag on the image to move your photo · use the sliders to zoom and to place the laser eyes</div></div>
+<div class="panel">
+<div class="grp"><div class="k">01 // Base</div><div class="opts" id="base"><button class="chip on" data-v="logo">GrokBot logo</button><button class="chip" data-v="bot">Cosmic bot</button><button class="chip" data-v="photo" id="upb">Upload photo</button></div><input type="file" id="file" accept="image/*">
+<div class="rg"><span>zoom</span><input type="range" id="zoom" min="50" max="300" value="100"></div></div>
+<div class="grp"><div class="k">02 // Background</div><div class="opts" id="bgc"></div></div>
+<div class="grp"><div class="k">03 // Overlays</div><div class="opts" id="ov">
+<button class="chip on" data-v="stars">Starfield</button><button class="chip on" data-v="halo">Fractured halo</button><button class="chip on" data-v="glitch">Glitch static</button><button class="chip on" data-v="laser">Laser eyes</button><button class="chip" data-v="visor">Visor</button><button class="chip on" data-v="hud">HUD frame</button><button class="chip on" data-v="ring">"Launched by GrokBot" ring</button><button class="chip" data-v="tag">$GBOT tag</button></div>
+<div class="rg"><span>glitch</span><input type="range" id="gl" min="0" max="100" value="45"></div></div>
+<div class="grp"><div class="k">04 // Eyes &amp; visor position</div>
+<div class="rg"><span>left-right</span><input type="range" id="ex" min="20" max="80" value="50"></div>
+<div class="rg"><span>up-down</span><input type="range" id="ey" min="20" max="80" value="46"></div>
+<div class="rg"><span>eye spacing</span><input type="range" id="es" min="4" max="40" value="17"></div>
+<div class="rg"><span>laser color</span><input type="range" id="lc" min="0" max="360" value="190"></div></div>
+<div class="row2"><button id="rnd">Randomize</button><a class="btn p" id="dl" download="gbot-pfp.png" href="#">Download PNG</a><a class="btn o" id="share" target="_blank" rel="noopener" href="https://x.com/intent/tweet?text=Rocking%20my%20%24GBOT%20cosmic-glitch%20PFP%20%F0%9F%A4%96%E2%9A%A1%20Make%20yours%3A%20https%3A%2F%2Fgbot-solana.github.io%2Fpfp%2F">Share on X</a></div>
+<div class="msg" id="msg" aria-live="polite">&gt; 1080×1080 PNG. Download it, then set it as your profile picture.</div></div></section></main>
+<footer class="w">Not affiliated with xAI. Nothing on this site is an offer, solicitation or advice of any kind. Crypto is risky.</footer>
+<script>
+const S=1080,c=pf,x=c.getContext("2d"),$=id=>document.getElementById(id);
+const BGS=[["#050a1a","#3d7bff"],["#12002b","#b04dff"],["#001a14","#3dffa8"],["#1a0508","#ff3d6e"],["#1a1200","#ffc46b"],["#000000","#38e1ff"]];
+const st={base:"logo",bg:0,ov:new Set(["stars","halo","glitch","laser","hud","ring"]),img:null,ox:0,oy:0,seed:7};
+const logo=new Image();logo.src="/assets/logo.png";logo.onload=draw;
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+BGS.forEach((b,i)=>{const e=document.createElement("button");e.className="sw"+(i?"":" on");e.style.background=`radial-gradient(circle at 40% 35%,${b[1]},${b[0]} 70%)`;e.setAttribute("aria-label","background "+(i+1));e.onclick=()=>{st.bg=i;[...bgc.children].forEach(z=>z.classList.toggle("on",z==e));draw()};bgc.appendChild(e)});
+base.onclick=e=>{const v=e.target.dataset.v;if(!v)return;if(v=="photo"){file.click();return}setBase(v)};
+function setBase(v){st.base=v;[...base.children].forEach(z=>z.classList.toggle("on",z.dataset.v==v));draw()}
+file.onchange=()=>{const f=file.files[0];if(!f)return;const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{st.img=im;st.ox=st.oy=0;setBase("photo");msg.textContent="> photo loaded locally. It never leaves your device."};im.onerror=()=>msg.textContent="> couldn't read that image. Try a JPG or PNG.";im.src=u};
+ov.onclick=e=>{const v=e.target.dataset.v;if(!v)return;st.ov.has(v)?st.ov.delete(v):st.ov.add(v);e.target.classList.toggle("on");draw()};
+["zoom","gl","ex","ey","es","lc"].forEach(k=>$(k).oninput=draw);
+let drag=null;c.onpointerdown=e=>{drag=[e.clientX,e.clientY];c.setPointerCapture(e.pointerId)};c.onpointerup=()=>drag=null;
+c.onpointermove=e=>{if(!drag)return;const k=S/c.getBoundingClientRect().width;st.ox+=(e.clientX-drag[0])*k;st.oy+=(e.clientY-drag[1])*k;drag=[e.clientX,e.clientY];draw()};
+rnd.onclick=()=>{const r=Math.random;st.seed=r()*1e9|0;st.bg=r()*BGS.length|0;[...bgc.children].forEach((z,i)=>z.classList.toggle("on",i==st.bg));gl.value=20+r()*70|0;lc.value=r()*360|0;
+["stars","halo","glitch","laser","visor","hud","ring","tag"].forEach(v=>{const on=v=="stars"||v=="halo"||r()<.55;on?st.ov.add(v):st.ov.delete(v)});if(st.ov.has("visor")&&r()<.5)st.ov.delete("laser");
+[...ov.children].forEach(z=>z.classList.toggle("on",st.ov.has(z.dataset.v)));draw()};
+function bot(r,col){const cx=S/2;x.save();x.fillStyle="#0b1630";x.strokeStyle=col;x.lineWidth=6;x.shadowColor=col;x.shadowBlur=30;
+x.beginPath();x.roundRect(cx-230,300,460,420,90);x.fill();x.stroke();x.beginPath();x.moveTo(cx,300);x.lineTo(cx,220);x.stroke();x.beginPath();x.arc(cx,205,18,0,7);x.fillStyle=col;x.fill();
+x.fillStyle="#0b1630";x.beginPath();x.roundRect(cx-300,730,600,400,120);x.fill();x.stroke();x.shadowBlur=0;
+// half-awake eyes
+const ey=S*ey_v(),sp=S*es.value/100;[-1,1].forEach(s=>{x.fillStyle="#e6f1ff";x.beginPath();x.ellipse(cx+s*sp,ey,46,46,0,0,7);x.fill();x.fillStyle="#0b1630";x.fillRect(cx+s*sp-50,ey-50,100,48);x.fillStyle=col;x.beginPath();x.arc(cx+s*sp,ey+12,18,0,7);x.fill()});
+x.strokeStyle=col;x.lineWidth=5;x.beginPath();x.moveTo(cx-60,ey+130);x.lineTo(cx+60,ey+124);x.stroke();x.restore()}
+const ey_v=()=>ey.value/100;
+function draw(){const r=rng(st.seed),[b0,b1]=BGS[st.bg],col=b1,G=gl.value/100;
+let g=x.createRadialGradient(S*.5,S*.42,40,S/2,S/2,S*.8);g.addColorStop(0,b1+"66");g.addColorStop(.55,b1+"22");g.addColorStop(1,b0);x.fillStyle=b0;x.fillRect(0,0,S,S);x.fillStyle=g;x.fillRect(0,0,S,S);
+if(st.ov.has("stars")){for(let i=0;i<260;i++){const s=r()*2.4+.3;x.fillStyle=`rgba(${r()<.2?"180,240,255":"255,255,255"},${.25+r()*.75})`;x.beginPath();x.arc(r()*S,r()*S,s,0,7);x.fill()}
+for(let i=0;i<5;i++){const px=r()*S,py=r()*S,l=10+r()*18;x.strokeStyle="rgba(255,255,255,.7)";x.lineWidth=2;x.beginPath();x.moveTo(px-l,py);x.lineTo(px+l,py);x.moveTo(px,py-l);x.lineTo(px,py+l);x.stroke()}}
+if(st.ov.has("halo")){x.save();x.shadowColor=col;x.shadowBlur=24;for(let k=0;k<3;k++){const R=360+k*44,seg=8+(r()*10|0);x.lineWidth=3+r()*6;for(let s=0;s<seg;s++){if(r()<.3)continue;const a0=s/seg*Math.PI*2+k,a1=a0+(Math.PI*2/seg)*(.35+r()*.5),dr=(r()-.5)*14;x.strokeStyle=k%2?col:"#e6f1ff";x.globalAlpha=.4+r()*.5;x.beginPath();x.arc(S/2+dr,S/2-dr,R,a0,a1);x.stroke()}}x.restore()}
+// base
+const z=zoom.value/100;
+if(st.base=="photo"&&st.img){const im=st.img,k=Math.max(S/im.width,S/im.height)*z,w=im.width*k,h=im.height*k;x.save();if(st.ov.has("halo")){x.beginPath();x.arc(S/2,S/2,340,0,7);x.clip()}x.drawImage(im,(S-w)/2+st.ox,(S-h)/2+st.oy,w,h);x.restore()}
+else if(st.base=="bot"){x.save();x.translate(S/2+st.ox,S/2+st.oy);x.scale(z,z);x.translate(-S/2,-S/2);bot(r,col);x.restore()}
+else{const R=300*z;x.save();x.beginPath();x.arc(S/2+st.ox,S/2+st.oy,R,0,7);x.clip();if(logo.complete)x.drawImage(logo,S/2+st.ox-R,S/2+st.oy-R,2*R,2*R);x.restore();x.save();x.lineWidth=6;x.strokeStyle=col;x.shadowColor=col;x.shadowBlur=30;x.beginPath();x.arc(S/2+st.ox,S/2+st.oy,R+3,0,7);x.stroke();x.restore()}
+const cx=S*ex.value/100,cy=S*ey_v(),sp=S*es.value/100;
+if(st.ov.has("visor")){x.save();x.translate(cx,cy);const w=sp*2+200,h=110;let vg=x.createLinearGradient(-w/2,0,w/2,0);vg.addColorStop(0,col+"cc");vg.addColorStop(.5,"#e6f1ffcc");vg.addColorStop(1,col+"cc");x.fillStyle="#050a1acc";x.strokeStyle=vg;x.lineWidth=8;x.shadowColor=col;x.shadowBlur=30;x.beginPath();x.roundRect(-w/2,-h/2,w,h,40);x.fill();x.stroke();x.shadowBlur=0;
+x.strokeStyle=col+"aa";x.lineWidth=2;for(let i=-h/2+16;i<h/2;i+=12){x.beginPath();x.moveTo(-w/2+24,i);x.lineTo(w/2-24,i);x.stroke()}x.fillStyle=col;x.font="26px J,monospace";x.textAlign="center";x.textBaseline="middle";x.fillText("> GBOT ONLINE_",0,2);x.restore()}
+if(st.ov.has("laser")){const h=+lc.value;[-1,1].forEach(s=>{const px=cx+s*sp,py=cy;x.save();x.globalCompositeOperation="lighter";
+const ang=s<0?Math.PI*0.95:Math.PI*0.05,L=1500;[[60,.18],[30,.35],[12,.9]].forEach(([w,a])=>{x.strokeStyle=`hsla(${h},100%,${w<20?85:60}%,${a})`;x.lineWidth=w;x.lineCap="round";x.beginPath();x.moveTo(px,py);x.lineTo(px+Math.cos(ang)*L*s*s,py+Math.sin(ang)*L*.08);x.stroke()});
+let lg=x.createRadialGradient(px,py,0,px,py,90);lg.addColorStop(0,"#fff");lg.addColorStop(.25,`hsla(${h},100%,65%,.9)`);lg.addColorStop(1,`hsla(${h},100%,50%,0)`);x.fillStyle=lg;x.beginPath();x.arc(px,py,90,0,7);x.fill();x.restore()})}
+if(st.ov.has("glitch")&&G>0){const n=Math.round(4+G*22);for(let i=0;i<n;i++){const y=r()*S|0,h=4+r()*40*G|0,dx=(r()-.5)*120*G|0;try{const d=x.getImageData(0,y,S,h);x.putImageData(d,dx,y)}catch(e){}}
+x.save();x.globalCompositeOperation="screen";for(let i=0;i<n;i++){x.fillStyle=r()<.5?`rgba(255,40,120,${.15*G})`:`rgba(60,230,255,${.18*G})`;x.fillRect(r()*S,r()*S,40+r()*300,2+r()*8)}x.restore();
+for(let i=0;i<4000*G;i++){x.fillStyle=`rgba(255,255,255,${r()*.18})`;x.fillRect(r()*S,r()*S,2,2)}}
+if(st.ov.has("hud")){x.save();x.strokeStyle=col;x.lineWidth=6;x.shadowColor=col;x.shadowBlur=16;[[36,36,1,1],[S-36,36,-1,1],[36,S-36,1,-1],[S-36,S-36,-1,-1]].forEach(([a,b,p,q])=>{x.beginPath();x.moveTo(a,b+q*90);x.lineTo(a,b);x.lineTo(a+p*90,b);x.stroke()});x.shadowBlur=0;
+x.fillStyle=col;x.font="22px J,monospace";x.textAlign="left";x.fillText("// GBOT.SYS",70,90);x.textAlign="right";x.fillText("REC ●",S-70,90);x.restore()}
+if(st.ov.has("ring")){const t=" LAUNCHED BY GROKBOT ✦ $GBOT ✦ LAUNCHED BY GROKBOT ✦ $GBOT ✦",R=470;x.save();x.translate(S/2,S/2);x.font="700 34px O,sans-serif";x.fillStyle="#e6f1ff";x.shadowColor=col;x.shadowBlur=14;x.textAlign="center";const a=Math.PI*2/t.length;x.rotate(-Math.PI/2);for(const ch of t){x.save();x.translate(R,0);x.rotate(Math.PI/2);x.fillText(ch,0,0);x.restore();x.rotate(a)}x.restore()}
+if(st.ov.has("tag")){x.save();x.font="800 64px O,sans-serif";x.textAlign="center";x.fillStyle="#fff";x.shadowColor=col;x.shadowBlur=30;const ty=st.ov.has("ring")?S/2+380:S-110;x.fillText("$GBOT",S/2,ty);x.restore()}
+try{dl.href=c.toDataURL("image/png")}catch(e){}}
+dl.onclick=()=>{try{dl.href=c.toDataURL("image/png")}catch(e){}};
+Promise.all(["800 40px O","22px J"].map(f=>document.fonts.load(f))).catch(()=>{}).then(draw);draw();
+</script><script src="/assets/bg.js"></script></body></html>
