@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rug & bot scanner · GrokBot ($GBOT)</title><meta name="description" content="Paste any Solana token mint. GrokBot checks authorities, holders, creator, liquidity, insiders, bot trading and socials.">
+<link rel="icon" href="/assets/favicon.png"><meta name="theme-color" content="#050a1a">
+<meta property="og:title" content="Rug & bot scanner · GrokBot ($GBOT)"><meta property="og:description" content="Paste any Solana token mint. GrokBot checks authorities, holders, creator, liquidity, insiders, bot trading and socials.">
+<meta property="og:image" content="https://gbot-solana.github.io/assets/og.jpg"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@Grokbotsolana"><meta name="twitter:image" content="https://gbot-solana.github.io/assets/og.jpg">
+<link rel="stylesheet" href="/assets/hud.css"><style>
+.hero h1{margin-bottom:4px}.frm{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.frm input{flex:1 1 260px;min-width:0;font:14px J,monospace;padding:12px;border-radius:10px;border:1px solid var(--edge);background:#07122bcc;color:var(--txt)}
+.frm button,.btn{font:700 13px J,monospace;padding:12px 16px;border-radius:10px;border:1px solid var(--cy);background:var(--cy);color:#03101f;cursor:pointer}
+.btn.o{background:transparent;color:var(--cy)}.ex{font:12px J,monospace;color:var(--mut)}.ex a{cursor:pointer;margin-right:10px}
+.sec{margin:26px 0 8px;font:700 14px J,monospace;letter-spacing:.14em;color:var(--cy)}
+.vd{border:1px solid var(--edge);border-radius:14px;background:var(--glass);padding:16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.vd b.big{font:800 26px O,B,sans-serif}.vd small{color:var(--mut);display:block;word-break:break-all}
+.ck{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.ck li{border:1px solid var(--edge);border-left:4px solid var(--k);border-radius:10px;background:#0b1a3c99;padding:10px 12px}
+.ck .t{font:700 12px J,monospace;color:var(--k);margin-right:8px}.ck p{margin:4px 0 0;color:var(--mut);font-size:14px;overflow-wrap:anywhere}
+.src{font:12px J,monospace;color:var(--mut)}.src span{margin-right:12px;display:inline-block}
+table{width:100%;border-collapse:collapse;font:12px J,monospace}td,th{padding:5px 6px;border-bottom:1px solid #ffffff14;text-align:left}td.r,th.r{text-align:right}
+.tw{overflow-x:auto}.disc{color:#ffc857;font-size:13px}#card{width:100%;max-width:600px;border-radius:12px;border:1px solid var(--edge);display:none;margin-top:10px}
+</style></head><body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="scan" aria-hidden="true"></div>
+<nav class="nav" aria-label="Main"><div class="w"><a class="brand" href="/"><img src="/assets/logo.png" alt=""><span>GROKBOT</span></a><a class="n" href="/">Home</a><a class="n" href="/mind/">Mind</a><a class="n" href="/brain/">Brain</a><a class="n" href="/diary/">Diary</a><a class="n" href="/break-me/">Break me</a><a class="n" href="/badge/">Badge</a><a class="n" href="/pfp/">PFP</a><a class="n" href="/meme/">Memes</a><a class="n" href="/curve/">Curve</a><a class="n" href="/ask/">Ask</a><a class="n" href="/elon/">Elon</a><a class="n" href="/scan/" aria-current="page">Scan</a></div></nav>
+<main class="w"><section class="hero"><h1>Rug &amp; bot scanner</h1><p>Paste any Solana token mint. GrokBot checks authorities, holder concentration, the creator wallet, liquidity, insider clusters, bot-like trading and socials, all live in your browser from public data.</p>
+<form class="frm" id="frm"><input id="mint" placeholder="Token mint address" autocomplete="off" spellcheck="false" aria-label="Token mint"><button>Scan</button></form>
+<div class="ex">Try: <a data-m="2rwF854dNptDpco4PsGnogpKuqBfCWqHszLR8pQjpump">$GBOT</a><a data-m="DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263">BONK</a><a data-m="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v">USDC</a></div>
+<p class="disc">Automated heuristics, can be wrong. Always do your own research.</p></section>
+<div id="out"></div></main>
+<footer class="w">Not affiliated with xAI. Nothing on this site is an offer, solicitation or advice of any kind. Crypto is risky.</footer>
+<script>
+const $=id=>document.getElementById(id),e=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const C={pass:"#3dffa8",warn:"#ffc857",fail:"#ff5470",na:"#8a96b8"},T={pass:"PASS",warn:"WARN",fail:"FAIL",na:"UNAVAILABLE"};
+const sh=a=>a?a.slice(0,4)+"…"+a.slice(-4):"",n=(x,d=1)=>Number(x).toLocaleString("en-US",{maximumFractionDigits:d}),usd=x=>"$"+n(x,0);
+async function J(u,t=15000){const c=new AbortController(),h=setTimeout(()=>c.abort(),t);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error("HTTP "+r.status);return await r.json()}finally{clearTimeout(h)}}
+const ok58=s=>/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(s);let last=null;
+async function scan(m){m=m.trim();$("mint").value=m;if(!ok58(m)){$("out").innerHTML='<p class="disc">That does not look like a Solana mint address.</p>';return}
+history.replaceState(null,"","?mint="+m);$("out").innerHTML='<p class="mono">Scanning '+e(sh(m))+' …</p>';
+const S={};const [rc,ds]=await Promise.allSettled([J("https://api.rugcheck.xyz/v1/tokens/"+m+"/report",25000),J("https://api.dexscreener.com/latest/dex/tokens/"+m)]);
+const R=rc.status=="fulfilled"&&rc.value&&rc.value.token?rc.value:null;S.RugCheck=R?"ok":"failed ("+(rc.reason?.message||"no data")+")";
+const P=ds.status=="fulfilled"?(ds.value.pairs||[]).filter(p=>p.chainId=="solana"&&p.baseToken?.address==m).sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0)):null;
+S.DexScreener=P?(P.length?"ok":"no pairs"):"failed";const top=P&&P[0];
+let TR=null;if(top){try{const g=await J("https://api.geckoterminal.com/api/v2/networks/solana/pools/"+top.pairAddress+"/trades");TR=g.data.map(x=>x.attributes);S.GeckoTerminal="ok"}catch(x){S.GeckoTerminal="failed ("+x.message+")"}}else S.GeckoTerminal="skipped (no pool)";
+let meta=null;if(R?.tokenMeta?.uri){try{meta=await J(R.tokenMeta.uri.replace("https://ipfs.io/ipfs/","https://dweb.link/ipfs/"),8000);S["Token metadata"]="ok"}catch(x){try{meta=await J(R.tokenMeta.uri,8000);S["Token metadata"]="ok"}catch(y){S["Token metadata"]="failed"}}}
+const K=[];const add=(name,st,why)=>K.push({name,st,why});
+const name=R?.tokenMeta?.name||R?.fileMeta?.name||top?.baseToken?.name||"Unknown",sym=R?.tokenMeta?.symbol||top?.baseToken?.symbol||"";
+// 1 mint authority 2 freeze
+if(R){add("Mint authority",R.token.mintAuthority?"fail":"pass",R.token.mintAuthority?"Still active ("+sh(R.token.mintAuthority)+"). The holder of this key can print new tokens at any time.":"Revoked. Nobody can mint more supply.");
+add("Freeze authority",R.token.freezeAuthority?"fail":"pass",R.token.freezeAuthority?"Still active ("+sh(R.token.freezeAuthority)+"). Your tokens could be frozen so you cannot sell.":"Revoked. Nobody can freeze holder wallets.")}
+else{add("Mint authority","na","RugCheck did not respond, so authorities could not be read.");add("Freeze authority","na","RugCheck did not respond.")}
+// holders
+let rows=[];if(R?.topHolders?.length){const KA=R.knownAccounts||{},mk=new Set((R.markets||[]).flatMap(x=>[x.pubkey,x.liquidityAAccount,x.liquidityBAccount]));
+rows=R.topHolders.map(h=>{const k=KA[h.owner]||KA[h.address];let lab="";if(mk.has(h.owner)||mk.has(h.address)||k?.type=="AMM")lab=(R.launchpad?.platform=="pump_fun"&&(R.markets||[]).some(x=>x.marketType=="pump_fun")?"Bonding curve":"Liquidity pool")+(k?" · "+k.name:"");else if(k?.type=="LOCKER")lab="Locker · "+k.name;else if(h.owner==R.creator||k?.type=="CREATOR")lab="Creator";else if(h.insider)lab="Insider";return{...h,lab}});
+const ex=rows.filter(r=>!/Bonding|Liquidity|Locker/.test(r.lab)),t10=ex.slice(0,10).reduce((a,r)=>a+r.pct,0),big=ex[0]?.pct||0;
+add("Top-10 holder concentration",t10>50||big>20?"fail":t10>30||big>10?"warn":"pass","Top 10 wallets hold "+n(t10)+"% of supply, excluding curve, pool and locker accounts (largest single wallet "+n(big)+"%). "+(t10>30?"A few wallets could move the price hard.":"Reasonably spread."))}
+else add("Top-10 holder concentration","na","Holder list unavailable.");
+// creator
+if(R?.creator){const sup=R.token.supply,pc=sup?R.creatorBalance/sup*100:null;const cs=TR?TR.filter(t=>t.tx_from_address==R.creator):null,sold=cs?cs.filter(t=>t.kind=="sell").length:null;
+let st=pc>10?"fail":pc>5?"warn":"pass";if(sold)st=st=="pass"?"warn":st;
+add("Creator wallet",st,"Creator "+sh(R.creator)+" holds "+(pc==null?"unknown":n(pc,2)+"%")+" of supply. "+(cs==null?"Recent sells: unavailable.":sold?sold+" sell(s) by the creator in the last "+TR.length+" trades.":"No creator sells in the last "+TR.length+" trades (older history not checked).")+(R.creatorTokens?.length>1?" This wallet has launched "+R.creatorTokens.length+" other tokens.":""))}
+else add("Creator wallet","na","Creator unknown or data unavailable.");
+// liquidity
+const liq=top?.liquidity?.usd??(R?.totalMarketLiquidity||null);
+if(liq!=null&&liq>0){const locked=(R?.markets||[]).map(x=>x.lp?.lpLockedPct).filter(x=>x!=null);const lk=locked.length?Math.max(...locked):null;
+add("Liquidity",liq<1000?"fail":liq<5000?"warn":"pass",usd(liq)+" liquidity"+(top?" on "+top.dexId:"")+(lk!=null?", "+n(lk,0)+"% of pool liquidity locked (or held by the launch curve)":"")+". "+(liq<5000?"Thin: small sells move price a lot.":"Healthy depth."))}else add("Liquidity","na","No liquidity figure from DexScreener or RugCheck.");
+// insiders / bundles
+if(R){const g=R.graphInsidersDetected||0,ins=rows.filter(r=>r.insider).length;add("Insider / bundle clusters",g>20||ins>3?"fail":g>0||ins>0?"warn":"pass",g||ins?"RugCheck links "+g+" wallets into insider networks; "+ins+" top holders flagged as insiders. Often a sign of bundled launch buys.":"No insider wallet networks detected by RugCheck. First-block sniper data is not available from free browser APIs, so this uses wallet-link analysis instead.")}else add("Insider / bundle clusters","na","Unavailable.");
+// bots
+if(TR&&TR.length>=10){const v=TR.map(t=>+t.volume_in_usd),tiny=v.filter(x=>x<5).length/v.length,b=TR.filter(t=>t.kind=="buy").length,s=TR.length-b;
+const rnd=v.map(x=>x.toFixed(2)),cnt={};rnd.forEach(x=>cnt[x]=(cnt[x]||0)+1);const same=Math.max(...Object.values(cnt))/v.length;
+const w={};TR.forEach(t=>w[t.tx_from_address]=(w[t.tx_from_address]||0)+1);const rep=Math.max(...Object.values(w))/TR.length,uniq=Object.keys(w).length;
+const score=(tiny>.5)+(same>.2)+(rep>.25);add("Bot-like trading",score>=2?"fail":score?"warn":"pass","Last "+TR.length+" trades: "+b+" buys / "+s+" sells from "+uniq+" wallets. "+n(tiny*100,0)+"% under $5, "+n(same*100,0)+"% share one size, busiest wallet made "+n(rep*100,0)+"% of trades. "+(score?"Patterns look partly automated.":"Looks mostly organic."))}
+else add("Bot-like trading","na",TR?"Too few recent trades to judge.":"Trade history unavailable.");
+// socials
+const so=[...(top?.info?.socials||[]).map(x=>x.type+":"+x.url),...(top?.info?.websites||[]).map(x=>"web:"+x.url)];if(meta){["twitter","telegram","website"].forEach(k=>meta[k]&&so.push((k=="website"?"web":k)+":"+meta[k]))}
+const su=[...new Set(so)];if(top||meta)add("Socials",su.length?"pass":"warn",su.length?"Listed: "+su.map(x=>x.split(":")[0]).filter((x,i,a)=>a.indexOf(x)==i).join(", ")+".":"No website or social links found in token metadata or DexScreener.");else add("Socials","na","Unavailable.");
+const f=K.filter(k=>k.st=="fail").length,w2=K.filter(k=>k.st=="warn").length,na=K.filter(k=>k.st=="na").length;
+const V=K.length-na<4?["UNKNOWN","#8a96b8","Too many data sources failed for a verdict."]:(R&&(R.token.mintAuthority||R.token.freezeAuthority))||f>=2||R?.rugged?["HIGH RISK","#ff5470",""]:f||w2>=3?["MEDIUM RISK","#ffc857",""]:["LOW RISK","#3dffa8",""];
+last={m,name,sym,K,V};
+$("out").innerHTML=`<h2 class="sec">VERDICT</h2><div class="vd"><b class="big" style="color:${V[1]}">${V[0]}</b><div><b>${e(name)} ${sym?"($"+e(sym)+")":""}</b><small>${e(m)}</small><small>${f} fail · ${w2} warn · ${na} unavailable${V[2]?" · "+V[2]:""}${R?.rugged?" · RugCheck marks this token RUGGED":""}</small></div></div>
+<h2 class="sec">CHECKS</h2><ul class="ck">${K.map(k=>`<li style="--k:${C[k.st]}"><span class="t">${T[k.st]}</span><b>${e(k.name)}</b><p>${e(k.why)}</p></li>`).join("")}</ul>
+${rows.length?`<h2 class="sec">TOP HOLDERS</h2><div class="tw"><table><tr><th>#</th><th>Owner</th><th>Label</th><th class="r">% supply</th></tr>${rows.slice(0,12).map((r,i)=>`<tr><td>${i+1}</td><td><a href="https://solscan.io/account/${e(r.owner)}" target="_blank" rel="noopener">${e(sh(r.owner))}</a></td><td>${e(r.lab||"-")}</td><td class="r">${n(r.pct,2)}%</td></tr>`).join("")}</table></div>`:""}
+<h2 class="sec">SHARE</h2><p><button class="btn" id="dl">Download result card</button> <button class="btn o" id="cp">Copy share link</button></p><img id="card" alt="Scan result card">
+<h2 class="sec">DATA SOURCES</h2><p class="src">${Object.entries(S).map(([k,v])=>`<span>${e(k)}: ${e(v)}</span>`).join("")}</p>
+<p class="disc">Automated heuristics, can be wrong. Always do your own research. Scanned ${new Date().toLocaleString()}.</p>`;
+$("dl").onclick=card;$("cp").onclick=()=>{navigator.clipboard?.writeText(location.href);$("cp").textContent="Copied"};}
+function card(){const L=last,c=document.createElement("canvas"),W=1200,H=630+Math.max(0,L.K.length-8)*48;c.width=W;c.height=H;const x=c.getContext("2d");
+const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,"#071433");g.addColorStop(1,"#050a1a");x.fillStyle=g;x.fillRect(0,0,W,H);x.strokeStyle="#38e1ff66";x.lineWidth=3;x.strokeRect(14,14,W-28,H-28);
+x.fillStyle="#38e1ff";x.font="700 24px J,monospace";x.fillText("GROKBOT RUG & BOT SCAN",50,70);x.fillStyle="#e6f1ff";x.font="700 40px B,sans-serif";x.fillText((L.name+(L.sym?" ($"+L.sym+")":"")).slice(0,40),50,125);
+x.fillStyle="#93a7cf";x.font="18px J,monospace";x.fillText(L.m,50,158);x.fillStyle=L.V[1];x.font="800 52px O,sans-serif";x.fillText(L.V[0],50,228);
+L.K.forEach((k,i)=>{const y=285+i*40;x.fillStyle=C[k.st];x.font="700 20px J,monospace";x.fillText(T[k.st],50,y);x.fillStyle="#e6f1ff";x.font="22px B,sans-serif";x.fillText(k.name,240,y)});
+x.fillStyle="#ffc857";x.font="18px B,sans-serif";x.fillText("Automated heuristics, can be wrong. Always do your own research.",50,H-80);
+x.fillStyle="#38e1ff";x.font="700 22px J,monospace";x.fillText("Scanned by GrokBot · gbot-solana.github.io",50,H-45);
+const u=c.toDataURL("image/png");$("card").src=u;$("card").style.display="block";const a=document.createElement("a");a.href=u;a.download="grokbot-scan-"+(L.sym||L.m.slice(0,6))+".png";a.click()}
+$("frm").onsubmit=ev=>{ev.preventDefault();scan($("mint").value)};document.querySelectorAll("[data-m]").forEach(a=>a.onclick=()=>scan(a.dataset.m));
+const q=new URLSearchParams(location.search).get("mint");if(q)scan(q);
+</script><script src="/assets/bg.js"></script></body></html>
